@@ -21,6 +21,7 @@ def add(url, name):
 
     if config.add_connection(url, name) is False:
         click.echo(f'Unable to add a connection with URL and Name provided.')
+        return
 
     click.echo(f'Connection created successfully')
 
