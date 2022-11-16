@@ -1,12 +1,7 @@
 {
     "python.testing.pytestArgs": [
-        "./tests/"
+        "tests"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "cSpell.words": [
-        "idonknow",
-        "idontknow",
-        "thiisnoturl"
-    ]
+    "python.testing.pytestEnabled": true
 }

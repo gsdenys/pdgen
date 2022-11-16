@@ -1,8 +1,10 @@
 import os
 import configparser
-from .pgsql import check_connection
+from pdgen.pgsql import check_connection
 
 __config_file = os.path.expanduser('~') + "/.pdgen"
+__selected = 'SELECTED'
+__conn = 'conn'
 
 
 def writer(cfg: configparser.ConfigParser):
@@ -18,20 +20,13 @@ def writer(cfg: configparser.ConfigParser):
 
 
 def read() -> configparser.ConfigParser:
-    """Read config file. By default the config file is .pdgen, that is stored at
-    the home directory. The name and path can be changed as long as the home 
-    directory be the base directory 
-
-    Args:
-        name (str, optional): the config file name. Defaults to '.pdgen'.
+    """Read the .pdgen config file that are stored at the user home directory.
 
     Returns:
-        configparser.ConfigParser: the config property
+        configparser.ConfigParser: the config property or None
     """
     if not os.path.exists(__config_file):
-        raise FileNotFoundError(
-            "No configuration present. Create a connection and try again"
-        )
+        return None
 
     config = configparser.ConfigParser()
     config.read(__config_file)
@@ -39,7 +34,7 @@ def read() -> configparser.ConfigParser:
     return config
 
 
-def select_connection(name: str = 'DEFAULT'):
+def select_connection(name: str = 'DEFAULT') -> bool:
     """Select the a predefined database connection
 
     Args:
@@ -47,25 +42,25 @@ def select_connection(name: str = 'DEFAULT'):
 
     Raises:
         Exception: Has no connection with the name passed by parameter
+        
+    Returns:
+        bool: True case operation successfully, other else False
     """
     cfg = read()
+    
+    if cfg is None: return False
+    if name.upper() not in cfg.keys(): return False
 
-    print([x for x in cfg.keys()], name.upper())
+    # Case this is the first time that a database is selected 
+    if __selected not in cfg.keys():
+        cfg.add_section(__selected)
 
-    if name.upper() not in cfg.keys():
-        raise Exception(
-            "Connection named {} is not defined.".format(name.upper())
-        )
-
-    # may be it already exist
-    try:
-        cfg.add_section('selected')
-    except configparser.DuplicateSectionError as e:
-        pass
-
-    cfg['selected']['conn'] = name.upper()
+    # Select the database
+    cfg[__selected][__conn] = name.upper()
 
     writer(cfg)
+    
+    return True
 
 
 def get_connection() -> str:
@@ -76,15 +71,16 @@ def get_connection() -> str:
     """
     cfg = read()
 
-    if 'selected' not in cfg.keys():
-        raise Exception(
-            "None selected connection or connection is not defined yet."
-        )
+    if cfg is None: 
+        return None
+    
+    if __selected not in cfg.keys(): 
+        return None
 
-    return cfg['selected']['conn']
+    return cfg[__selected][__conn]
 
 
-def add_connection(url: str, name: str = 'DEFAULT'):
+def add_connection(url: str, name: str = 'DEFAULT') -> bool:
     """Add a new connection to the connection base
 
     Args:
@@ -94,39 +90,41 @@ def add_connection(url: str, name: str = 'DEFAULT'):
     Raises:
         Exception: Database connection error
     """
-    if not check_connection(url):
-        raise Exception("Database connection fail. Check the url and try again.")
-    
-    cfg = None
-    
-    try:
-        cfg = read()
-    except:
-        cfg = configparser.ConfigParser()
-    
+    if not check_connection(url): return False
+
+    cfg = configparser.ConfigParser()
+
+    # Read the config file if it exists
+    if os.path.exists(__config_file):
+       cfg = read()
+
     if name not in cfg.keys():
         cfg.add_section(name.upper())
-    
-    cfg[name.upper()]['conn'] = url
-    
+
+    cfg[name.upper()][__conn] = url
+
     writer(cfg)
 
 
-def remove_connection(name: str):
+def remove_connection(name: str) -> bool:
     """Remove connection from configuration
 
     Args:
-        name (str): _description_
+        name (str): connection name
 
-    Raises:
-        Exception: _description_
+    Returns:
+        bool: True for successful execution, other else False
     """
     cfg = read()
     
-    if cfg.remove_section(name.upper()):
-        if 'selected' in cfg.keys() and cfg['selected']['conn'] == name.upper():
-            cfg.remove_section('selected')
-    else:
-        raise Exception("Configuration not found")
+    if cfg is None: return False
     
+    if cfg.remove_section(name.upper()) is False: return False 
+
+    # Case the removed connection is the selected connection
+    if __selected in cfg.keys() and cfg[__selected][__conn] == name.upper():
+        cfg.remove_section(__selected)
+
     writer(cfg)
+    
+    return True

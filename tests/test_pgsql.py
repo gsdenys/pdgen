@@ -1,4 +1,4 @@
-from ..pdgen import pgsql
+from pdgen import pgsql
 import pytest
 
 

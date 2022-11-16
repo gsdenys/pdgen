@@ -1,31 +1,40 @@
-import configparser
+from pdgen import config
 import click
 
-from pdgen.config import set_connection, read
 
 @click.group()
-@click.option('--debug/--no-debug')
-def cli(debug):
-    click.echo(f"Debug mode is {'on' if debug else 'off'}")
+def cli():
+    pass
+
 
 @cli.command()
-@click.option('--username')
-def greet(username):
-    click.echo(f"Hello {username}!")
-
-@cli.command()
-@click.option('-n', '--name', 'name')
 @click.option('-u', '--url', 'url')
-def connect(name, url):
-    set_connection(name, url)
-    
+@click.option('-n', '--name', 'name')
+def add(url, name):
+
+    if name is None:
+        name = "DEFAULT"
+
+    if not config.check_connection(url):
+        click.echo(f'Unable to connect using the provided URL')
+        return
+
+    if config.add_connection(url, name) is False:
+        click.echo(f'Unable to add a connection with URL and Name provided.')
+
+    click.echo(f'Connection created successfully')
+
 
 @cli.command()
-@click.option('-s', '--show') 
-def connect():
-    print(read())
+@click.argument('connection')
+def rm(connection):
+    if config.remove_connection(connection) is False:
+        click.echo(
+            'Unable to remove connection. Check the connection name and try again.')
+        return
 
+    click.echo(f'Connection removed successfully.')
 
 
 if __name__ == '__main__':
-    cli(auto_envvar_prefix='GREETER')
+    cli()
