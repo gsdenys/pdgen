@@ -39,19 +39,18 @@ def add(url: str, name: str) -> str:
     if config.add_connection(url, name) is False:
         return __permission_error("add")
 
-    return 'Connection created successfully.\n\n(name:{}, url:{})'.format(name, url)
+    return 'Connection created successfully.\n(name:{}, url:{})'.format(name, url)
 
 
 def rm(name: str) -> str:
+    cfg = config.read()
+    if cfg is None: return __permission_error('remove')
+    
     cn = __check_name(name=name.upper())
-    if len(cn) > 0:
-        return cn
+    if len(cn) > 0: return cn
 
     if config.remove_connection(name) is False:
-        msg = 'Unable to remove connection. '
-        msg += 'Check the connection name and try again'
-
-        return msg
+        return 'Sorry, some unknown error happened'
 
     msg = 'Connection removed successfully.\n'
     msg += "Use 'pdgen connection list' to list all connections."

@@ -3,7 +3,7 @@ from sqlalchemy import create_engine as ce
 import pandas as pd
 
 
-__sql_dict = '''
+__sql_column_dict = '''
 select 
     c.table_name as "Table",
     c.column_name as "Colonne",
@@ -60,8 +60,9 @@ def check_connection(url: str) -> bool:
     except:
         return False
 
-def data() -> pd.DataFrame:
+
+def get_columns_dict() -> pd.DataFrame:
     conn = create_engine(os.environ['DATABASE_URL'])
-    df = pd.read_sql(__sql_dict, conn)
+    df = pd.read_sql(__sql_column_dict, conn)
 
     return df

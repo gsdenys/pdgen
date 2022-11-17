@@ -7,3 +7,6 @@
 
 
 ## Web UI
+
+
+pytest --cov-report lcov:coverage/lcov.info tests/

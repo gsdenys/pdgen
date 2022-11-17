@@ -1,5 +1,6 @@
-import os
 import configparser
+import os
+
 from pdgen.pgsql import check_connection
 
 config_file = os.path.expanduser('~') + "/.pdgen"

@@ -154,3 +154,16 @@ def test_list_connections():
     resp.append(('DEFAULT', url_success, False))
     resp.sort()
     assert config.list_connections() == resp
+    
+def test_get_conn_url():
+    drop_conf()
+    assert config.get_conn_url() == None
+    
+    config.add_connection(url_success)
+    assert config.get_conn_url() == None
+    
+    config.select_connection('default')
+    assert config.get_conn_url() == url_success
+    
+    
+    
