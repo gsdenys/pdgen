@@ -138,3 +138,19 @@ def test_remove_connection():
     assert __selected not in cfg.keys() 
 
     assert config.remove_connection('invalid_data') is False
+
+
+def test_list_connections():
+    drop_conf()
+    
+    resp = []
+    assert config.list_connections() == []
+    
+    config.add_connection(url=url_success, name='test')
+    resp.append(('TEST', url_success, False))
+    assert config.list_connections() == resp
+    
+    config.add_connection(url_success)
+    resp.append(('DEFAULT', url_success, False))
+    resp.sort()
+    assert config.list_connections() == resp

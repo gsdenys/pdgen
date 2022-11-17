@@ -1,7 +1,7 @@
 import os
-import psycopg2
 from sqlalchemy import create_engine as ce
 import pandas as pd
+
 
 __sql_dict = '''
 select 
@@ -29,10 +29,8 @@ order by "Table"
 '''
 
 
-    
-
 def create_engine(url: str):
-    """Function simple that just call de create engine with posgresql driver with the
+    """Function simple that just call de create engine with postgresql driver with the
     objetive of encapsulate the database iteration in this package in order to avoid
     direct iteration by others.
 
@@ -43,6 +41,7 @@ def create_engine(url: str):
         engine : the generated engine
     """
     return ce(url)
+
 
 def check_connection(url: str) -> bool:
     """Check if the url can generate a funcional connection
@@ -56,7 +55,13 @@ def check_connection(url: str) -> bool:
     try:
         engine = create_engine(url)
         engine.connect().close()
-        
+
         return True
     except:
         return False
+
+def data() -> pd.DataFrame:
+    conn = create_engine(os.environ['DATABASE_URL'])
+    df = pd.read_sql(__sql_dict, conn)
+
+    return df

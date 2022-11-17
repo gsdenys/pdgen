@@ -2,7 +2,7 @@ import os
 import configparser
 from pdgen.pgsql import check_connection
 
-__config_file = os.path.expanduser('~') + "/.pdgen"
+config_file = os.path.expanduser('~') + "/.pdgen"
 __selected = 'SELECTED'
 __conn = 'conn'
 
@@ -15,7 +15,7 @@ def writer(cfg: configparser.ConfigParser):
         cfg (configparser.ConfigParser): The properties to be persisted
         name (str, optional): the properties file. Defaults to '.pdgen'.
     """
-    with open(__config_file, 'w') as file:
+    with open(config_file, 'w') as file:
         cfg.write(file)
 
 
@@ -25,11 +25,11 @@ def read() -> configparser.ConfigParser:
     Returns:
         configparser.ConfigParser: the config property or None
     """
-    if not os.path.exists(__config_file):
+    if not os.path.exists(config_file):
         return None
 
     config = configparser.ConfigParser()
-    config.read(__config_file)
+    config.read(config_file)
 
     return config
 
@@ -95,15 +95,17 @@ def add_connection(url: str, name: str = 'DEFAULT') -> bool:
     cfg = configparser.ConfigParser()
 
     # Read the config file if it exists
-    if os.path.exists(__config_file):
+    if os.path.exists(config_file):
        cfg = read()
 
-    if name not in cfg.keys():
+    if name.upper() not in cfg.keys():
         cfg.add_section(name.upper())
 
     cfg[name.upper()][__conn] = url
 
     writer(cfg)
+    
+    return True
 
 
 def remove_connection(name: str) -> bool:
@@ -128,3 +130,37 @@ def remove_connection(name: str) -> bool:
     writer(cfg)
     
     return True
+
+
+def list_connections() -> list[tuple[str, str]]:
+    cfg = read()
+    conn_list = []
+    
+    selected = get_connection()
+    
+    if cfg is None: return conn_list
+    
+    for k, v in cfg.items():
+        if k == __selected: continue
+        if len(v) == 0: continue
+        
+        conn_list.append((k, v[__conn], selected == k))
+
+    return conn_list
+
+
+def get_conn_url() -> str:
+    """Get the selected connection url
+
+    Returns:
+        str: the selected connection url
+    """
+    cfg = read()
+
+    if cfg is None: 
+        return None
+    
+    if __selected not in cfg.keys(): 
+        return None
+
+    return cfg[cfg[__selected][__conn]][__conn]
