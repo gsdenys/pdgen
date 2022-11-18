@@ -45,3 +45,17 @@ def test_rm():
     msg += "Use 'pdgen connection list' to list all connections."
     res = conn.rm('test')
     assert res == msg
+    
+    
+def test_use():
+    drop_conf()
+    
+    res = conn.use('conn')
+    assert res == "There are no connection defined."
+    
+    conn.add(url_success, 'test')
+    
+    msg = "There's no connection named '{}'.\n".format('NOCONN')
+    msg += "Use 'pdgen connection list' to list all connections."
+    res = conn.use('NOCONN')
+    assert res == msg

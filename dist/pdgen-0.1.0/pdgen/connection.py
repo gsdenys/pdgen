@@ -11,14 +11,7 @@ def __name(name: str):
 
 def __check_name(name: str):
     msg = ""
-    
-    cfg = config.read()
-    if cfg == None: 
-        return "There are no connection defined."
-    
-    conns = [x for x in cfg.keys()]
-  
-        
+    conns = [x for x in config.read().keys()]
 
     if name not in conns:
         msg = "There's no connection named '{}'.\n".format(name)
@@ -91,5 +84,3 @@ def use(name: str) -> str:
         return __permission_error("add")
 
     return "The connection named '{}' was selected to use.".format(name)
-
-
