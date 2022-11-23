@@ -19,7 +19,7 @@ func TestOutputOptions_String(t *testing.T) {
 }
 
 func TestOutputOptions_Message(t *testing.T) {
-	want := "the possibles output. allowed: csv, docx, md, txt, xlsx"
+	want := "the possibles output. allowed: csv, default, docx, json, md, txt, xlsx"
 
 	assert.Equal(t, Message(), want)
 }

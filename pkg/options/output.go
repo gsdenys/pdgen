@@ -11,11 +11,13 @@ type OutputOptions string
 
 // Options for output format
 var Options = map[string]OutputOptions{
-	"MD":   OutputOptions("md"),
-	"TXT":  OutputOptions("txt"),
-	"CSV":  OutputOptions("csv"),
-	"DOCX": OutputOptions("docx"),
-	"XLSX": OutputOptions("xlsx"),
+	"DEFAULT": OutputOptions(""),
+	"MD":      OutputOptions("md"),
+	"TXT":     OutputOptions("txt"),
+	"CSV":     OutputOptions("csv"),
+	"DOCX":    OutputOptions("docx"),
+	"XLSX":    OutputOptions("xlsx"),
+	"JSON":    OutputOptions("json"),
 }
 
 // getKeys returns an array of string containing the output possibilites
