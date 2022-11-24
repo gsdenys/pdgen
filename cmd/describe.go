@@ -72,6 +72,8 @@ standard output.`,
 			services.ToJSON(*desc, path)
 		case options.Options["TXT"]:
 			services.ToTXT(*desc, path, lang)
+		case options.Options["MD"]:
+			services.ToMD(*desc, path, lang)
 		default:
 			services.PrintDescription(*desc, lang)
 		}
