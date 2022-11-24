@@ -6,6 +6,7 @@ package cmd
 import (
 	"github.com/gsdenys/pdgen/pkg/options"
 	"github.com/gsdenys/pdgen/pkg/services"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 	"github.com/spf13/cobra"
 )
 
@@ -15,6 +16,7 @@ var (
 	schema   string                = "default"
 	database string                = "postgres"
 	path     string                = ""
+	lang     string                = "en"
 )
 
 const (
@@ -37,6 +39,11 @@ const (
 	pathName      string = "out"
 	pathShorthand string = "o"
 	pathFlagDesc  string = "the description output file"
+
+	defaultLang   string = "en"
+	lanName       string = "language"
+	langShorthand string = "l"
+	langFlagDesc  string = "the language selected to the output file"
 )
 
 // describeCmd represents the describe command
@@ -49,7 +56,7 @@ standard output.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		oFormat := options.OutputOptions(format)
 
-		jsonStr, err := services.Describe(uri, database, schema)
+		desc, err := services.Describe(uri, database, schema)
 		if err != nil {
 			println(err.Error())
 		}
@@ -58,11 +65,15 @@ standard output.`,
 			path = "output." + oFormat.String()
 		}
 
+		translate.RegisterLanguages()
+
 		switch oFormat {
 		case options.Options["JSON"]:
-			services.ToJSON(*jsonStr, path)
+			services.ToJSON(*desc, path)
+		case options.Options["TXT"]:
+			services.ToTXT(*desc, path, lang)
 		default:
-			services.PrintDescription(*jsonStr)
+			services.PrintDescription(*desc, lang)
 		}
 	},
 }
@@ -102,5 +113,13 @@ func init() {
 		pathShorthand,
 		defaultPath,
 		pathFlagDesc,
+	)
+
+	describeCmd.PersistentFlags().StringVarP(
+		&lang,
+		lanName,
+		langShorthand,
+		defaultLang,
+		langFlagDesc,
 	)
 }

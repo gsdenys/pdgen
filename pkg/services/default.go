@@ -2,82 +2,116 @@ package services
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"strings"
 
 	"github.com/fatih/color"
 	"github.com/gsdenys/pdgen/pkg/models"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 	"github.com/rodaine/table"
 )
 
-type Printer struct{}
-
-const (
-	reset = "\033[0m"
-	blue  = "\033[0m"
-)
-
-const lineBreak = "\n\n"
-
-func printTitle(title string) {
-	fmt.Fprintf(os.Stdout, "%s%s%s\n", string("\033[34m"), strings.ToUpper(title), string("\033[0m"))
+type PrinterText struct {
+	out      io.Writer
+	formater bool
+	language string
 }
 
-func breakLine() {
-	fmt.Fprintf(os.Stdout, "\n")
+func (p *PrinterText) Title(title string) {
+	if p.formater {
+		fmt.Fprintf(p.out, "%s%s%s\n", string("\033[34m"), strings.ToUpper(title), string("\033[0m"))
+	} else {
+		fmt.Fprintf(p.out, "%s\n", strings.ToUpper(title))
+	}
 }
 
-func printDescription(desc string) {
-	fmt.Fprintf(os.Stdout, "%s%s\n", string("\033[0m"), desc)
+func (p *PrinterText) Subtitle(subtitle string) {
+	p.Title(subtitle)
 }
 
-func printTable(t models.Table) {
-	printTitle(t.Name)
-	printDescription(t.Desc)
+func (p *PrinterText) LineBreak() {
+	fmt.Fprintf(p.out, "\n")
+}
 
-	breakLine()
+func (p *PrinterText) Body(desc string) {
+	if p.formater {
+		fmt.Fprintf(p.out, "%s%s\n", string("\033[0m"), desc)
+	} else {
+		fmt.Fprintf(p.out, "%s\n", desc)
+	}
+}
 
-	headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
-	columnFmt := color.New(color.FgYellow).SprintfFunc()
+func (p *PrinterText) Columns(columns []models.Columns) {
+	t := translate.GetTranslation(p.language)
 
-	tbl := table.New("Name", "Type", "Allow", "Comment")
-	tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
+	table.DefaultWriter = p.out
+	tbl := table.New(
+		t.Sprintf("table-title-name"),
+		t.Sprintf("table-title-type"),
+		t.Sprintf("table-title-allow"),
+		t.Sprintf("table-title-comment"),
+	)
 
-	for c := range t.Columns {
-		tbl.AddRow(t.Columns[c].Column, t.Columns[c].Type, t.Columns[c].Allow, t.Columns[c].Comment)
+	if p.formater {
+		headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
+		columnFmt := color.New(color.FgYellow).SprintfFunc()
+		tbl.WithHeaderFormatter(headerFmt).WithFirstColumnFormatter(columnFmt)
+	}
+
+	for c := range columns {
+		tbl.AddRow(columns[c].Column, columns[c].Type, columns[c].Allow, columns[c].Comment)
 	}
 
 	tbl.Print()
-	breakLine()
-
 }
 
-func PrintDescription(desc models.Describe) {
-	printTitle("Data Dictionary for database " + desc.Database.Name)
-	breakLine()
+func (p *PrinterText) Table(t models.Table) {
+	p.Title(t.Name)
+	p.Body(t.Desc)
 
-	printDescription(desc.Database.Desc)
-	breakLine()
+	p.LineBreak()
 
-	printTitle("Schema " + desc.Schema.Name)
-	printDescription(desc.Schema.Desc)
-	breakLine()
+	p.Columns(t.Columns)
 
-	printTitle("Tables Descriptions")
-	printDescription(
-		fmt.Sprintf(
-			`The database %s, at the schema %s, contem %d tables that are described bellow. 
-For each table is presented their name, description and the description of each
-column containing their name, type, and description. In the cases of the data 
-type is a custom dada type, the options is printed as an allow  enum`,
+	p.LineBreak()
+}
+
+func (p *PrinterText) print(desc models.Describe) {
+	t := translate.GetTranslation(p.language)
+
+	p.Title(t.Sprintf("title-db", desc.Database.Name))
+	p.LineBreak()
+
+	p.Body(desc.Database.Desc)
+	p.LineBreak()
+
+	// p.Title("Schema " + desc.Schema.Name)
+	p.Title(t.Sprintf("title-schema", desc.Schema.Name))
+	p.Body(desc.Schema.Desc)
+	p.LineBreak()
+
+	p.Title(t.Sprintf("title-tables"))
+	p.Body(
+		t.Sprintf("desc-tables",
 			desc.Database.Name,
 			desc.Schema.Name,
 			len(desc.Tables),
 		),
 	)
-	breakLine()
+	p.LineBreak()
 
 	for index := range desc.Tables {
-		printTable(desc.Tables[index])
+		p.Table(desc.Tables[index])
 	}
+}
+
+func PrintDescription(desc models.Describe, lang string) {
+	printer := &PrinterText{
+		out:      os.Stdout,
+		formater: true,
+		language: lang,
+	}
+
+	printer.print(desc)
 }
