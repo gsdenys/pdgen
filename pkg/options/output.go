@@ -14,9 +14,7 @@ var Options = map[string]OutputOptions{
 	"DEFAULT": OutputOptions(""),
 	"MD":      OutputOptions("md"),
 	"TXT":     OutputOptions("txt"),
-	"CSV":     OutputOptions("csv"),
-	"DOCX":    OutputOptions("docx"),
-	"XLSX":    OutputOptions("xlsx"),
+	"HTML":    OutputOptions("html"),
 	"JSON":    OutputOptions("json"),
 }
 

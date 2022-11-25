@@ -4,31 +4,12 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gsdenys/pdgen/pkg/database"
 	"github.com/gsdenys/pdgen/pkg/models"
 )
 
 const successConnection string = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
 
-const script string = `
-	CREATE TABLE IF NOT EXISTS test (
-		id serial PRIMARY KEY,
-		name text NOT NULL
-   );
-   COMMENT ON TABLE test IS 'table for test propose';
-   
-   COMMENT ON COLUMN test.id IS 'sequencial unique identifier';
-   COMMENT ON COLUMN test.name IS 'name of test';
-	`
-
 func TestDescribe(t *testing.T) {
-
-	cnn := database.Connect("postgres", successConnection)
-	if _, err := cnn.Exec(script); err != nil {
-		t.Errorf("create table and comments error: %s", err.Error())
-	}
-	cnn.Close()
-
 	type args struct {
 		uri    string
 		db     string

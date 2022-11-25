@@ -11,14 +11,12 @@ func RegisterLanguages() {
 }
 
 func GetTranslation(l string) *message.Printer {
-
 	switch l {
 	case "pt", "pt_BR":
 		return message.NewPrinter(language.BrazilianPortuguese)
 	case "fr", "fr_CA":
 		return message.NewPrinter(language.CanadianFrench)
 	default:
-		RegisterEN()
 		return message.NewPrinter(language.AmericanEnglish)
 	}
 }

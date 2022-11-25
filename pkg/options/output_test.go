@@ -3,7 +3,7 @@ package options
 import (
 	"testing"
 
-	"github.com/magiconair/properties/assert"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestOutputOptions_Type(t *testing.T) {
@@ -19,7 +19,7 @@ func TestOutputOptions_String(t *testing.T) {
 }
 
 func TestOutputOptions_Message(t *testing.T) {
-	want := "the possibles output. allowed: csv, default, docx, json, md, txt, xlsx"
+	want := "the possibles output. allowed: default, html, json, md, txt"
 
 	assert.Equal(t, Message(), want)
 }

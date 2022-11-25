@@ -4,9 +4,13 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"io"
+	"os"
+
 	"github.com/gsdenys/pdgen/pkg/options"
 	"github.com/gsdenys/pdgen/pkg/services"
 	"github.com/gsdenys/pdgen/pkg/services/translate"
+	"github.com/gsdenys/pdgen/pkg/services/writer"
 	"github.com/spf13/cobra"
 )
 
@@ -46,6 +50,16 @@ const (
 	langFlagDesc  string = "the language selected to the output file"
 )
 
+func createFile(path string) io.Writer {
+	file, err := os.Create(path)
+
+	if err != nil {
+		panic("Error create file: " + err.Error())
+	}
+
+	return file
+}
+
 // describeCmd represents the describe command
 var describeCmd = &cobra.Command{
 	Use:   "describe",
@@ -66,17 +80,38 @@ standard output.`,
 		}
 
 		translate.RegisterLanguages()
+		translate := translate.GetTranslation(lang)
 
+		var printer services.Printer
 		switch oFormat {
 		case options.Options["JSON"]:
-			services.ToJSON(*desc, path)
+			printer = &writer.PrinterJson{
+				Out:       createFile(path),
+				Translate: translate,
+			}
 		case options.Options["TXT"]:
-			services.ToTXT(*desc, path, lang)
+			printer = &writer.PrinterTXT{
+				Out:       createFile(path),
+				Translate: translate,
+			}
 		case options.Options["MD"]:
-			services.ToMD(*desc, path, lang)
+			printer = &writer.PrinterMD{
+				Out:       createFile(path),
+				Translate: translate,
+			}
+		case options.Options["HTML"]:
+			printer = &writer.PrinterHTML{
+				Out:       createFile(path),
+				Translate: translate,
+			}
 		default:
-			services.PrintDescription(*desc, lang)
+			printer = &writer.PrinterConsole{
+				Out:       os.Stdout,
+				Translate: translate,
+			}
 		}
+
+		services.PrintDocument(printer, *desc)
 	},
 }
 

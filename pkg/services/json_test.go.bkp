@@ -1,23 +1,12 @@
 package services
 
 import (
-	"io/ioutil"
-	"log"
 	"os"
 	"testing"
 
 	"github.com/google/uuid"
 	"github.com/gsdenys/pdgen/pkg/models"
 )
-
-func getTempDir() string {
-	dir, err := ioutil.TempDir("test", "")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return dir
-}
 
 func TestToJSON(t *testing.T) {
 	type args struct {
