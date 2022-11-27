@@ -8,6 +8,7 @@ import (
 func RegisterLanguages() {
 	RegisterEN()
 	RegisterPT()
+	RegisterFR()
 }
 
 func GetTranslation(l string) *message.Printer {

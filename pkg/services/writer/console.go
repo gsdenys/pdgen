@@ -19,7 +19,7 @@ type PrinterConsole struct {
 func (p *PrinterConsole) Init(desc models.Describe) {}
 
 func (p *PrinterConsole) Title(title string) {
-	fmt.Fprintf(p.Out, "%s%s%s\n", string("\033[34m"), strings.ToUpper(title), string("\033[0m"))
+	fmt.Fprintf(p.Out, "%s%s%s\n", string("\033[0;32m"), strings.ToUpper(title), string("\033[0m"))
 }
 
 func (p *PrinterConsole) Subtitle(subtitle string) {

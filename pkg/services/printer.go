@@ -22,9 +22,10 @@ func PrintDocument(p Printer, desc models.Describe) {
 	p.Init(desc)
 	t := p.GetLanguage()
 
-	p.Title(t.Sprintf("title-db", desc.Database.Name))
+	p.Title(t.Sprintf("title"))
 	p.LineBreak()
 
+	p.SubSubtitle(t.Sprintf("title-db", desc.Database.Name))
 	p.Body(desc.Database.Desc)
 	p.LineBreak()
 
