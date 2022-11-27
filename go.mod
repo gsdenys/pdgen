@@ -3,8 +3,6 @@ module github.com/gsdenys/pdgen
 go 1.19
 
 require (
-	github.com/jung-kurt/gofpdf v1.16.2
-	github.com/phpdave11/gofpdf v1.4.2
 	github.com/rodaine/table v1.0.1
 	github.com/spf13/viper v1.14.0
 	github.com/stretchr/testify v1.8.1
