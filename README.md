@@ -1,9 +1,8 @@
-# PostgreSQL Data Dictionary Generator
+# PDGEN
 
-## Command Line
+Data Dictionary Generation for PostgreSQL
 
-
-## Web API
-
-
-## Web UI
+go run main.go describe --language pt --format md
+go run main.go describe --language pt --format html
+go run main.go describe --language en --format txt
+go run main.go describe --language en
