@@ -40,3 +40,32 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
           horusec start -p="./" -e="true"
 
+  build:
+    needs: horusec
+
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+        
+      - name: Setup Go (latest)
+        uses: actions/setup-go@v3
+      
+      - name: Run unity test
+        run: |
+          mkdir -p bin
+          go test -short -coverprofile=bin/cov.out ./...
+
+      - name: Run benchmark
+        run: |
+          go test -bench 'Benchmark' ./... | tee bin/bench.txt
+          
+      - name: Archive code coverage and bench results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: bin
