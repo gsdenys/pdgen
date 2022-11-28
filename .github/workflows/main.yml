@@ -46,6 +46,23 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+
     steps:
       - name: Clone Repository
         uses: actions/checkout@master
@@ -54,6 +71,16 @@ jobs:
         
       - name: Setup Go (latest)
         uses: actions/setup-go@v3
+      
+      - name: Install PostgreSQL client
+        run: |
+          apt-get update
+          apt-get install --yes postgresql-client
+      
+      - name: Exec Script
+        run: psql -h postgres -d postgres -U postgres -a -f resources/test.sql
+        env:
+          PGPASSWORD: postgres
       
       - name: Run unity test
         run: |
