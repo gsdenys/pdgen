@@ -12,9 +12,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var (
-	cfgFile     string
-	userLicense string
-	rootCmd     = &cobra.Command{
+	rootCmd = &cobra.Command{
 		Use:   "pdgen",
 		Short: "The Data Dictionary Generator",
 		Long: `PDGEN is command line tools to generate a data dictionary in many 
