@@ -23,15 +23,20 @@ jobs:
         with:
           version: latest
           
-  Vulnerability:
-    name: Vulnerability check
+  horusec:
+    name: Identify Vulnerabilities
     runs-on: ubuntu-latest
+    
+    needs: ['golint']
+    
     steps:
-      - name: Clone repository
+      - name: Check out code
         uses: actions/checkout@v3
-        with:
+        with: 
           fetch-depth: 0
-          
-      - name: Github vulnerability check
-        uses: tierconnect-adm/github-vulnerability-steps@v0.0.3
+
+      - name: Running Horusec Security
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/ZupIT/horusec/main/deployments/scripts/install.sh | bash -s latest
+          horusec start -p="./" -e="true"
 

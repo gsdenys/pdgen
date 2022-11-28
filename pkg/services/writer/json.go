@@ -39,7 +39,8 @@ func (p *PrinterJson) Done(desc models.Describe) {
 	}
 
 	fmt.Fprintf(p.Out, "%s", string(b))
-	p.Out.(*os.File).Close()
+
+	_ = p.Out.(*os.File).Close()
 }
 
 func (p *PrinterJson) GetLanguage() *message.Printer {

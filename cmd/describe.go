@@ -14,15 +14,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	uri      string                = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
-	format   options.OutputOptions = options.Options["DEFAULT"]
-	schema   string                = "default"
-	database string                = "postgres"
-	path     string                = ""
-	lang     string                = "en"
-)
-
 const (
 	defaultDatabaseURI   string = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
 	databaseUriName      string = "uri"
@@ -48,6 +39,15 @@ const (
 	lanName       string = "language"
 	langShorthand string = "l"
 	langFlagDesc  string = "the language selected to the output file"
+)
+
+var (
+	uri      string                = defaultDatabase
+	format   options.OutputOptions = options.Options["DEFAULT"]
+	schema   string                = defaultSchema
+	database string                = defaultDatabase
+	path     string                = ""
+	lang     string                = "en"
 )
 
 func createFile(path string) io.Writer {

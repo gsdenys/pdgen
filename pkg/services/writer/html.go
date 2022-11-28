@@ -192,7 +192,8 @@ func (p *PrinterHTML) Table(t models.Table) {
 func (p *PrinterHTML) Done(desc models.Describe) {
 	fmt.Fprintf(p.Out, "%s\n", footer)
 	fmt.Fprintf(p.Out, "\n</body>\n\n</html>")
-	p.Out.(*os.File).Close()
+
+	_ = p.Out.(*os.File).Close()
 }
 
 func (p *PrinterHTML) GetLanguage() *message.Printer {

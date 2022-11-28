@@ -66,7 +66,7 @@ func (p *PrinterTXT) Table(t models.Table) {
 }
 
 func (p *PrinterTXT) Done(desc models.Describe) {
-	p.Out.(*os.File).Close()
+	_ = p.Out.(*os.File).Close()
 }
 
 func (p *PrinterTXT) GetLanguage() *message.Printer {
