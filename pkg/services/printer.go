@@ -5,6 +5,7 @@ import (
 	"golang.org/x/text/message"
 )
 
+// Printer interface that must be implemented by every printer
 type Printer interface {
 	Init(desc models.Describe)
 	Title(title string)
@@ -25,7 +26,7 @@ func PrintDocument(p Printer, desc models.Describe) {
 	p.Title(t.Sprintf("title"))
 	p.LineBreak()
 
-	p.SubSubtitle(t.Sprintf("title-db", desc.Database.Name))
+	p.Subtitle(t.Sprintf("title-db", desc.Database.Name))
 	p.Body(desc.Database.Desc)
 	p.LineBreak()
 
