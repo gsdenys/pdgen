@@ -16,7 +16,9 @@ type PrinterTXT struct {
 	Translate *message.Printer
 }
 
-func (p *PrinterTXT) Init(desc models.Describe) {}
+func (p *PrinterTXT) Init(desc models.Describe) {
+	// Do nothing because have nothing to initialise
+}
 
 func (p *PrinterTXT) Title(title string) {
 	fmt.Fprintf(p.Out, "%s\n", strings.ToUpper(title))

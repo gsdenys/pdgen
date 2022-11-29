@@ -85,7 +85,7 @@ func TestGetDatabaseComment(t *testing.T) {
 			want: "default administrative connection database",
 		},
 		{
-			name: "comment-retrieved",
+			name: "comment-not-retrieved",
 			args: args{
 				db:       Connect("postgres", successConnection),
 				database: "bla",

@@ -16,7 +16,9 @@ type PrinterConsole struct {
 	Translate *message.Printer
 }
 
-func (p *PrinterConsole) Init(desc models.Describe) {}
+func (p *PrinterConsole) Init(desc models.Describe) {
+	// Do nothing because have nothing to initialise
+}
 
 func (p *PrinterConsole) Title(title string) {
 	fmt.Fprintf(p.Out, "%s%s%s\n", string("\033[0;32m"), strings.ToUpper(title), string("\033[0m"))

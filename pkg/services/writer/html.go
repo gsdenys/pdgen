@@ -124,6 +124,9 @@ const footer string = `
 		</svg>
 	</div>`
 
+const cell_string_pattern string = "\t\t\t<td>%s</td>\n"
+const cell_string_header string = "\t\t\t<th>%s</th>\n"
+
 type PrinterHTML struct {
 	Out       io.Writer
 	Translate *message.Printer
@@ -158,20 +161,21 @@ func (p *PrinterHTML) Columns(columns []models.Columns) {
 
 	//Table title
 	fmt.Fprintf(p.Out, "\t\t%s\n", `<tr class="active-row">`)
-	fmt.Fprintf(p.Out, "\t\t\t<th>%s</th>\n", p.Translate.Sprintf("table-title-name"))
-	fmt.Fprintf(p.Out, "\t\t\t<th>%s</th>\n", p.Translate.Sprintf("table-title-type"))
-	fmt.Fprintf(p.Out, "\t\t\t<th>%s</th>\n", p.Translate.Sprintf("table-title-allow"))
-	fmt.Fprintf(p.Out, "\t\t\t<th>%s</th>\n", p.Translate.Sprintf("table-title-comment"))
+	fmt.Fprintf(p.Out, cell_string_header, p.Translate.Sprintf("table-title-name"))
+	fmt.Fprintf(p.Out, cell_string_header, p.Translate.Sprintf("table-title-type"))
+	fmt.Fprintf(p.Out, cell_string_header, p.Translate.Sprintf("table-title-allow"))
+	fmt.Fprintf(p.Out, cell_string_header, p.Translate.Sprintf("table-title-comment"))
 	fmt.Fprint(p.Out, "\t\t</tr>\n")
 
 	for c := range columns {
 
 		//Table title
 		fmt.Fprint(p.Out, "\t\t<tr>\n")
-		fmt.Fprintf(p.Out, "\t\t\t<td>%s</td>\n", columns[c].Column)
-		fmt.Fprintf(p.Out, "\t\t\t<td>%s</td>\n", columns[c].Type)
-		fmt.Fprintf(p.Out, "\t\t\t<td>%s</td>\n", columns[c].Allow)
-		fmt.Fprintf(p.Out, "\t\t\t<td>%s</td>\n", columns[c].Comment)
+
+		fmt.Fprintf(p.Out, cell_string_pattern, columns[c].Column)
+		fmt.Fprintf(p.Out, cell_string_pattern, columns[c].Type)
+		fmt.Fprintf(p.Out, cell_string_pattern, columns[c].Allow)
+		fmt.Fprintf(p.Out, cell_string_pattern, columns[c].Comment)
 		fmt.Fprint(p.Out, "\t\t</tr>\n")
 	}
 
