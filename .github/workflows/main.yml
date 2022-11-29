@@ -82,7 +82,7 @@ jobs:
           path: bin
 
   sonarcloud:
-    needs: horusec
+    needs: build
 
     name: SonarCloud
     runs-on: ubuntu-latest
