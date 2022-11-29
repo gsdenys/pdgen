@@ -78,7 +78,7 @@ jobs:
           apt-get install --yes postgresql-client
       
       - name: Exec Script
-        run: psql -h postgres -d postgres -U postgres -a -f resources/test.sql
+        run: psql -h postgres -d postgres -U postgres -a -f  resources/test.sql
         env:
           PGPASSWORD: postgres
       
