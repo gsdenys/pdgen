@@ -1,3 +1,6 @@
+COMMENT ON DATABASE postgres IS 'standard public database';
+COMMENT ON SCHEMA public IS 'standard public schema';
+
 CREATE TABLE IF NOT EXISTS test (
     id serial PRIMARY KEY,
     name text NOT NULL

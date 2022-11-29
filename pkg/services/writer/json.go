@@ -48,11 +48,7 @@ func (p *PrinterJson) Table(t models.Table) {
 }
 
 func (p *PrinterJson) Done(desc models.Describe) {
-	b, err := json.MarshalIndent(desc, "", "    ")
-
-	if err != nil {
-		println("Error when try to convert to JSON!")
-	}
+	b, _ := json.MarshalIndent(desc, "", "    ")
 
 	fmt.Fprintf(p.Out, "%s", string(b))
 
