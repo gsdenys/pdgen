@@ -10,7 +10,7 @@ import (
 	"golang.org/x/text/message"
 )
 
-const base string = `<!DOCTYPE html>
+const Base string = `<!DOCTYPE html>
 <html>
 
 <head>
@@ -76,7 +76,7 @@ const base string = `<!DOCTYPE html>
 
 <body>`
 
-const footer string = `
+const Footer string = `
 	<hr>
 	<div>
 		<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="10%" viewBox="0 0 500.000000 150.000000"
@@ -133,7 +133,7 @@ type PrinterHTML struct {
 }
 
 func (p *PrinterHTML) Init(desc models.Describe) {
-	fmt.Fprintf(p.Out, "%s\n", base)
+	fmt.Fprintf(p.Out, "%s\n", Base)
 }
 
 func (p *PrinterHTML) Title(title string) {
@@ -194,7 +194,7 @@ func (p *PrinterHTML) Table(t models.Table) {
 }
 
 func (p *PrinterHTML) Done(desc models.Describe) {
-	fmt.Fprintf(p.Out, "%s\n", footer)
+	fmt.Fprintf(p.Out, "%s\n", Footer)
 	fmt.Fprintf(p.Out, "\n</body>\n\n</html>")
 
 	_ = p.Out.(*os.File).Close()

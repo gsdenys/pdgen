@@ -14,6 +14,16 @@ import (
 	"golang.org/x/text/message"
 )
 
+func createFile(path string) *os.File {
+	f, err := os.Create(path)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return f
+}
+
 var baseTest models.Describe = models.Describe{
 	Database: models.Basic{
 		Name: "postgres",
@@ -38,27 +48,6 @@ var baseTest models.Describe = models.Describe{
 		},
 	},
 }
-
-// func TestPrinterJson_Done(t *testing.T) {
-// 	path := os.TempDir() + uuid.NewString()
-// 	file, _ := os.Create(path)
-
-// 	p := &PrinterJson{
-// 		Out:       file,
-// 		Translate: translate.GetTranslation("en"),
-// 	}
-
-// 	p.Done(baseTest)
-
-// 	want := "{\n    \"database\": {\n        \"name\": \"postgres\",\n        \"description\": \"default database\"\n    },\n    \"schema\": {\n        \"name\": \"public\",\n        \"description\": \"default database\"\n    },\n    \"tables\": [\n        {\n            \"name\": \"test\",\n            \"description\": \"somme test\",\n            \"columns\": [\n                {\n                    \"column\": \"test\",\n                    \"type\": \"text\",\n                    \"allow\": \"\",\n                    \"comment\": \"nothing\"\n                }\n            ]\n        }\n    ]\n}"
-
-// 	b, err := os.ReadFile(path)
-// 	if err != nil {
-// 		t.Error(err.Error())
-// 	}
-
-// 	assert.Equal(t, string(b), want)
-// }
 
 func TestPrinterJson_GetLanguage(t *testing.T) {
 	type fields struct {
@@ -157,16 +146,6 @@ func TestPrinterJson_Table(t *testing.T) {
 }
 
 func TestPrinterJson_Done(t *testing.T) {
-	createFile := func(path string) *os.File {
-		f, err := os.Create(path)
-
-		if err != nil {
-			t.Error(err.Error())
-		}
-
-		return f
-	}
-
 	type fields struct {
 		Path      string
 		Translate *message.Printer
