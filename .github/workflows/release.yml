@@ -11,23 +11,27 @@ jobs:
     environment: dev_environment
     runs-on: ubuntu-latest
 
+    releases-matrix:
+      name: Release Go Binary
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          goos: [linux, windows, darwin]
+          goarch: ["386", amd64, arm64]
+          exclude:
+            - goarch: "386"
+              goos: darwin
+            - goarch: arm64
+              goos: windows
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
-      - name: Cross Platform Build
-        run: |
-          GOOS=linux GOARCH=386 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-linux-386 main.go
-	        GOOS=linux GOARCH=amd64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-linux-amd64 main.go
-	        GOOS=linux GOARCH=arm64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-linux-arm64 main.go
-
-          GOOS=windows GOARCH=386 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-windows-386.exe main.go
-          GOOS=windows GOARCH=amd64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-windows-amd64.exe main.go
-
-          GOOS=darwin GOARCH=arm64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-darwin-arm64 main.go
-          GOOS=darwin GOARCH=amd64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-darwin-amd64 main.go
+      - uses: wangyoucao577/go-release-action@v1.33
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          goos: ${{ matrix.goos }}
+          goarch: ${{ matrix.goarch }}
 
       - name: Upload assets
         uses: xresloader/upload-to-github-release@v1
