@@ -7,13 +7,39 @@ on:
 jobs:
   build:
     name: Build
+
     environment: dev_environment
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
+
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Test
+
+      - name: Cross Platform Build
         run: |
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
+          GOOS=linux GOARCH=386 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-linux-386 main.go
+	        GOOS=linux GOARCH=amd64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-linux-amd64 main.go
+	        GOOS=linux GOARCH=arm64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-linux-arm64 main.go
+
+          GOOS=windows GOARCH=386 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-windows-386.exe main.go
+          GOOS=windows GOARCH=amd64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-windows-amd64.exe main.go
+
+          GOOS=darwin GOARCH=arm64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-darwin-arm64 main.go
+          GOOS=darwin GOARCH=amd64 go build -o bin/pdgen-${{ env.RELEASE_VERSION }}-darwin-amd64 main.go
+
+      - name: Upload assets
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "bin/*"
+          tags: true
+          draft: true
+
+      # - name: Test
+      #   run: |
+      #     echo $RELEASE_VERSION
+      #     echo ${{ env.RELEASE_VERSION }}
+\
