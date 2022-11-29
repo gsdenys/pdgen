@@ -31,7 +31,7 @@ func TestDescribe(t *testing.T) {
 			want: &models.Describe{
 				Database: models.Basic{
 					Name: "postgres",
-					Desc: "postgres standard public database",
+					Desc: "postgres default administrative connection database",
 				},
 				Schema: models.Basic{
 					Name: "public",
