@@ -37,9 +37,3 @@ jobs:
           file: "bin/*"
           tags: true
           draft: true
-
-      # - name: Test
-      #   run: |
-      #     echo $RELEASE_VERSION
-      #     echo ${{ env.RELEASE_VERSION }}
-\
