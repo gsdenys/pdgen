@@ -11,7 +11,7 @@ import (
 )
 
 func TestPrinterHTML_Init(t *testing.T) {
-	file := os.TempDir() + uuid.NewString()
+	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
 		Out:       createFile(file),
@@ -29,7 +29,7 @@ func TestPrinterHTML_Init(t *testing.T) {
 }
 
 func TestPrinterHTML_Title(t *testing.T) {
-	file := os.TempDir() + uuid.NewString()
+	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
 		Out:       createFile(file),
@@ -47,7 +47,7 @@ func TestPrinterHTML_Title(t *testing.T) {
 }
 
 func TestPrinterHTML_Subtitle(t *testing.T) {
-	file := os.TempDir() + uuid.NewString()
+	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
 		Out:       createFile(file),
@@ -65,7 +65,7 @@ func TestPrinterHTML_Subtitle(t *testing.T) {
 }
 
 func TestPrinterHTML_SubSubtitle(t *testing.T) {
-	file := os.TempDir() + uuid.NewString()
+	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
 		Out:       createFile(file),
@@ -81,3 +81,57 @@ func TestPrinterHTML_SubSubtitle(t *testing.T) {
 
 	assert.Equal(t, string(f), "\t<h3>TEST</h3>\n")
 }
+
+func TestPrinterHTML_LineBreak(t *testing.T) {
+	file := getWorkDir() + uuid.NewString()
+
+	p := &PrinterHTML{
+		Out:       createFile(file),
+		Translate: translate.GetTranslation("en"),
+	}
+
+	p.LineBreak()
+
+	f, err := os.ReadFile(file)
+	if err != nil {
+		t.Error(err)
+	}
+
+	assert.Equal(t, string(f), "\t<br>\n")
+}
+
+func TestPrinterHTML_Body(t *testing.T) {
+	file := getWorkDir() + uuid.NewString()
+
+	p := &PrinterHTML{
+		Out:       createFile(file),
+		Translate: translate.GetTranslation("en"),
+	}
+
+	p.Body("test")
+
+	f, err := os.ReadFile(file)
+	if err != nil {
+		t.Error(err)
+	}
+
+	assert.Equal(t, string(f), "\t<p>test</p>\n")
+}
+
+// func TestPrinterHTML_Column(t *testing.T) {
+// 	file := getWorkDir() + uuid.NewString()
+
+// 	p := &PrinterHTML{
+// 		Out:       createFile(file),
+// 		Translate: translate.GetTranslation("en"),
+// 	}
+
+// 	p.Body("test")
+
+// 	f, err := os.ReadFile(file)
+// 	if err != nil {
+// 		t.Error(err)
+// 	}
+
+// 	assert.Equal(t, string(f), "\t<p>TEST</p>\n")
+// }

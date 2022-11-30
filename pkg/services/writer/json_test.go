@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"io"
 	"os"
+	"path/filepath"
 	"reflect"
+	"runtime"
 	"testing"
 
 	"github.com/google/uuid"
@@ -22,6 +24,15 @@ func createFile(path string) *os.File {
 	}
 
 	return f
+}
+
+func getWorkDir() string {
+	_, b, _, _ := runtime.Caller(0)
+	basepath := filepath.Dir(b) + "/test/"
+
+	_ = os.MkdirAll(basepath, os.ModePerm)
+
+	return basepath
 }
 
 var baseTest models.Describe = models.Describe{
@@ -162,7 +173,7 @@ func TestPrinterJson_Done(t *testing.T) {
 		{
 			name: "successful",
 			fields: fields{
-				Path:      os.TempDir() + uuid.NewString(),
+				Path:      getWorkDir() + uuid.NewString(),
 				Translate: translate.GetTranslation("en"),
 			},
 			args: args{
