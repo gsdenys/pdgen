@@ -7,12 +7,11 @@ import (
 	"strings"
 
 	"github.com/gsdenys/pdgen/pkg/models"
-	"golang.org/x/text/message"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 )
 
 type PrinterMD struct {
-	Out       io.Writer
-	Translate *message.Printer
+	Out io.Writer
 }
 
 func (p *PrinterMD) Init(desc models.Describe) {
@@ -43,10 +42,10 @@ func (p *PrinterMD) Columns(columns []models.Columns) {
 	fmt.Fprintf(
 		p.Out,
 		"| %s | %s | %s | %s |\n",
-		p.Translate.Sprintf("table-title-name"),
-		p.Translate.Sprintf("table-title-type"),
-		p.Translate.Sprintf("table-title-allow"),
-		p.Translate.Sprintf("table-title-comment"),
+		translate.T.Sprintf("table-title-name"),
+		translate.T.Sprintf("table-title-type"),
+		translate.T.Sprintf("table-title-allow"),
+		translate.T.Sprintf("table-title-comment"),
 	)
 
 	fmt.Fprintf(p.Out, "| :--- | :--- | :----: | :--- |\n")
@@ -76,8 +75,4 @@ func (p *PrinterMD) Table(t models.Table) {
 
 func (p *PrinterMD) Done(desc models.Describe) {
 	_ = p.Out.(*os.File).Close()
-}
-
-func (p *PrinterMD) GetLanguage() *message.Printer {
-	return p.Translate
 }

@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/gsdenys/pdgen/pkg/models"
-	"golang.org/x/text/message"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 )
 
 const Base string = `<!DOCTYPE html>
@@ -128,8 +128,7 @@ const cell_string_pattern string = "\t\t\t<td>%s</td>\n"
 const cell_string_header string = "\t\t\t<th>%s</th>\n"
 
 type PrinterHTML struct {
-	Out       io.Writer
-	Translate *message.Printer
+	Out io.Writer
 }
 
 func (p *PrinterHTML) Init(desc models.Describe) {
@@ -161,10 +160,10 @@ func (p *PrinterHTML) Columns(columns []models.Columns) {
 
 	//Table title
 	fmt.Fprintf(p.Out, "\t\t%s\n", `<tr class="active-row">`)
-	fmt.Fprintf(p.Out, cell_string_header, p.Translate.Sprintf("table-title-name"))
-	fmt.Fprintf(p.Out, cell_string_header, p.Translate.Sprintf("table-title-type"))
-	fmt.Fprintf(p.Out, cell_string_header, p.Translate.Sprintf("table-title-allow"))
-	fmt.Fprintf(p.Out, cell_string_header, p.Translate.Sprintf("table-title-comment"))
+	fmt.Fprintf(p.Out, cell_string_header, translate.T.Sprintf("table-title-name"))
+	fmt.Fprintf(p.Out, cell_string_header, translate.T.Sprintf("table-title-type"))
+	fmt.Fprintf(p.Out, cell_string_header, translate.T.Sprintf("table-title-allow"))
+	fmt.Fprintf(p.Out, cell_string_header, translate.T.Sprintf("table-title-comment"))
 	fmt.Fprint(p.Out, "\t\t</tr>\n")
 
 	for c := range columns {
@@ -198,8 +197,4 @@ func (p *PrinterHTML) Done(desc models.Describe) {
 	fmt.Fprintf(p.Out, "\n</body>\n\n</html>")
 
 	_ = p.Out.(*os.File).Close()
-}
-
-func (p *PrinterHTML) GetLanguage() *message.Printer {
-	return p.Translate
 }

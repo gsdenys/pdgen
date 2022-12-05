@@ -27,7 +27,7 @@ func TestGetTranslation(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := GetTranslation(tt.args.l)
+			got := SetTranslation(tt.args.l)
 			if !reflect.DeepEqual(got, tt.want) {
 				got.Print("Data Dictionary for database")
 				t.Errorf("GetTranslation() = %v, want %v", got, tt.want)

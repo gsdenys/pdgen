@@ -35,7 +35,7 @@ const (
 	pathShorthand string = "o"
 	pathFlagDesc  string = "the description output file"
 
-	defaultLang   string = "en"
+	defaultLang   string = ""
 	lanName       string = "language"
 	langShorthand string = "l"
 	langFlagDesc  string = "the language selected to the output file"
@@ -47,7 +47,7 @@ var (
 	schema   string                = defaultSchema
 	database string                = defaultDatabase
 	path     string                = ""
-	lang     string                = "en"
+	lang     string                = ""
 )
 
 func createFile(path string) io.Writer {
@@ -68,46 +68,43 @@ var describeCmd = &cobra.Command{
 in the selected format that by default is a txt expressed at the
 standard output.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if lang != "" {
+			translate.SetTranslation(lang)
+		}
+
 		oFormat := options.OutputOptions(format)
 
 		desc, err := services.Describe(uri, database, schema)
 		if err != nil {
 			println(err.Error())
+			return
 		}
 
 		if path == "" {
 			path = "output." + oFormat.String()
 		}
 
-		translate.RegisterLanguages()
-		translate := translate.GetTranslation(lang)
-
 		var printer services.Printer
 		switch oFormat {
 		case options.Options["JSON"]:
 			printer = &writer.PrinterJson{
-				Out:       createFile(path),
-				Translate: translate,
+				Out: createFile(path),
 			}
 		case options.Options["TXT"]:
 			printer = &writer.PrinterTXT{
-				Out:       createFile(path),
-				Translate: translate,
+				Out: createFile(path),
 			}
 		case options.Options["MD"]:
 			printer = &writer.PrinterMD{
-				Out:       createFile(path),
-				Translate: translate,
+				Out: createFile(path),
 			}
 		case options.Options["HTML"]:
 			printer = &writer.PrinterHTML{
-				Out:       createFile(path),
-				Translate: translate,
+				Out: createFile(path),
 			}
 		default:
 			printer = &writer.PrinterConsole{
-				Out:       os.Stdout,
-				Translate: translate,
+				Out: os.Stdout,
 			}
 		}
 

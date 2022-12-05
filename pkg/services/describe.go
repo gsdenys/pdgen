@@ -8,7 +8,10 @@ import (
 func Describe(uri string, db string, schema string) (*models.Describe, error) {
 	desc := &models.Describe{}
 
-	conn := database.Connect("postgres", uri)
+	conn, err := database.Connect("postgres", uri)
+	if err != nil {
+		return nil, err
+	}
 	defer conn.Close()
 
 	// get Database Info

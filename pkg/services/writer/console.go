@@ -7,13 +7,12 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/gsdenys/pdgen/pkg/models"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 	"github.com/rodaine/table"
-	"golang.org/x/text/message"
 )
 
 type PrinterConsole struct {
-	Out       io.Writer
-	Translate *message.Printer
+	Out io.Writer
 }
 
 func (p *PrinterConsole) Init(desc models.Describe) {
@@ -43,10 +42,10 @@ func (p *PrinterConsole) Body(desc string) {
 func (p *PrinterConsole) Columns(columns []models.Columns) {
 	table.DefaultWriter = p.Out
 	tbl := table.New(
-		p.Translate.Sprintf("table-title-name"),
-		p.Translate.Sprintf("table-title-type"),
-		p.Translate.Sprintf("table-title-allow"),
-		p.Translate.Sprintf("table-title-comment"),
+		translate.T.Sprintf("table-title-name"),
+		translate.T.Sprintf("table-title-type"),
+		translate.T.Sprintf("table-title-allow"),
+		translate.T.Sprintf("table-title-comment"),
 	)
 
 	headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
@@ -69,10 +68,6 @@ func (p *PrinterConsole) Table(t models.Table) {
 	p.Columns(t.Columns)
 
 	p.LineBreak()
-}
-
-func (p *PrinterConsole) GetLanguage() *message.Printer {
-	return p.Translate
 }
 
 func (p *PrinterConsole) Done(desc models.Describe) {}

@@ -6,7 +6,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gsdenys/pdgen/pkg/models"
-	"github.com/gsdenys/pdgen/pkg/services/translate"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,8 +13,7 @@ func TestPrinterHTML_Init(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
-		Out:       createFile(file),
-		Translate: translate.GetTranslation("en"),
+		Out: createFile(file),
 	}
 
 	p.Init(models.Describe{})
@@ -32,8 +30,7 @@ func TestPrinterHTML_Title(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
-		Out:       createFile(file),
-		Translate: translate.GetTranslation("en"),
+		Out: createFile(file),
 	}
 
 	p.Title("test")
@@ -50,8 +47,7 @@ func TestPrinterHTML_Subtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
-		Out:       createFile(file),
-		Translate: translate.GetTranslation("en"),
+		Out: createFile(file),
 	}
 
 	p.Subtitle("test")
@@ -68,8 +64,7 @@ func TestPrinterHTML_SubSubtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
-		Out:       createFile(file),
-		Translate: translate.GetTranslation("en"),
+		Out: createFile(file),
 	}
 
 	p.SubSubtitle("test")
@@ -86,8 +81,7 @@ func TestPrinterHTML_LineBreak(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
-		Out:       createFile(file),
-		Translate: translate.GetTranslation("en"),
+		Out: createFile(file),
 	}
 
 	p.LineBreak()
@@ -104,8 +98,7 @@ func TestPrinterHTML_Body(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &PrinterHTML{
-		Out:       createFile(file),
-		Translate: translate.GetTranslation("en"),
+		Out: createFile(file),
 	}
 
 	p.Body("test")

@@ -7,13 +7,12 @@ import (
 	"strings"
 
 	"github.com/gsdenys/pdgen/pkg/models"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 	"github.com/rodaine/table"
-	"golang.org/x/text/message"
 )
 
 type PrinterTXT struct {
-	Out       io.Writer
-	Translate *message.Printer
+	Out io.Writer
 }
 
 func (p *PrinterTXT) Init(desc models.Describe) {
@@ -43,10 +42,10 @@ func (p *PrinterTXT) Body(desc string) {
 func (p *PrinterTXT) Columns(columns []models.Columns) {
 	table.DefaultWriter = p.Out
 	tbl := table.New(
-		p.Translate.Sprintf("table-title-name"),
-		p.Translate.Sprintf("table-title-type"),
-		p.Translate.Sprintf("table-title-allow"),
-		p.Translate.Sprintf("table-title-comment"),
+		translate.T.Sprintf("table-title-name"),
+		translate.T.Sprintf("table-title-type"),
+		translate.T.Sprintf("table-title-allow"),
+		translate.T.Sprintf("table-title-comment"),
 	)
 
 	for c := range columns {
@@ -69,8 +68,4 @@ func (p *PrinterTXT) Table(t models.Table) {
 
 func (p *PrinterTXT) Done(desc models.Describe) {
 	_ = p.Out.(*os.File).Close()
-}
-
-func (p *PrinterTXT) GetLanguage() *message.Printer {
-	return p.Translate
 }

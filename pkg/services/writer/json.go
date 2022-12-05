@@ -7,12 +7,10 @@ import (
 	"os"
 
 	"github.com/gsdenys/pdgen/pkg/models"
-	"golang.org/x/text/message"
 )
 
 type PrinterJson struct {
-	Out       io.Writer
-	Translate *message.Printer
+	Out io.Writer
 }
 
 func (p *PrinterJson) Init(desc models.Describe) {
@@ -53,8 +51,4 @@ func (p *PrinterJson) Done(desc models.Describe) {
 	fmt.Fprintf(p.Out, "%s", string(b))
 
 	_ = p.Out.(*os.File).Close()
-}
-
-func (p *PrinterJson) GetLanguage() *message.Printer {
-	return p.Translate
 }
