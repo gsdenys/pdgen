@@ -81,10 +81,10 @@ func TestGetKeys(t *testing.T) {
 	var want []string = []string{
 		"en",
 		"en-US",
-		"pt",
-		"pt-BR",
 		"fr",
 		"fr-CA",
+		"pt",
+		"pt-BR",
 	}
 
 	if got := GetKeys(); !reflect.DeepEqual(got, want) {

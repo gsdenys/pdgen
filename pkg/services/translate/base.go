@@ -2,6 +2,7 @@ package translate
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/Xuanwo/go-locale"
 	"github.com/gsdenys/pdgen/pkg/services/translate/lang"
@@ -19,6 +20,8 @@ func GetKeys() []string {
 	for index := range RegLang {
 		ret = append(ret, index)
 	}
+
+	sort.Strings(ret)
 
 	return ret
 }
