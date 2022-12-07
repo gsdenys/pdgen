@@ -12,7 +12,7 @@ import (
 func TestPrinterHTML_Init(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
-	p := &PrinterHTML{
+	p := &HTML{
 		Out: createFile(file),
 	}
 
@@ -29,7 +29,7 @@ func TestPrinterHTML_Init(t *testing.T) {
 func TestPrinterHTML_Title(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
-	p := &PrinterHTML{
+	p := &HTML{
 		Out: createFile(file),
 	}
 
@@ -46,7 +46,7 @@ func TestPrinterHTML_Title(t *testing.T) {
 func TestPrinterHTML_Subtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
-	p := &PrinterHTML{
+	p := &HTML{
 		Out: createFile(file),
 	}
 
@@ -63,7 +63,7 @@ func TestPrinterHTML_Subtitle(t *testing.T) {
 func TestPrinterHTML_SubSubtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
-	p := &PrinterHTML{
+	p := &HTML{
 		Out: createFile(file),
 	}
 
@@ -80,7 +80,7 @@ func TestPrinterHTML_SubSubtitle(t *testing.T) {
 func TestPrinterHTML_LineBreak(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
-	p := &PrinterHTML{
+	p := &HTML{
 		Out: createFile(file),
 	}
 
@@ -97,7 +97,7 @@ func TestPrinterHTML_LineBreak(t *testing.T) {
 func TestPrinterHTML_Body(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
-	p := &PrinterHTML{
+	p := &HTML{
 		Out: createFile(file),
 	}
 

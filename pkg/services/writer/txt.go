@@ -11,35 +11,39 @@ import (
 	"github.com/rodaine/table"
 )
 
-type PrinterTXT struct {
+type TXT struct {
 	Out io.Writer
 }
 
-func (p *PrinterTXT) Init(desc models.Describe) {
+func (p *TXT) SetWriter(path string) {
+	p.Out = createFile(path)
+}
+
+func (p *TXT) Init(desc models.Describe) {
 	// Do nothing because have nothing to initialise
 }
 
-func (p *PrinterTXT) Title(title string) {
+func (p *TXT) Title(title string) {
 	fmt.Fprintf(p.Out, "%s\n", strings.ToUpper(title))
 }
 
-func (p *PrinterTXT) Subtitle(subtitle string) {
+func (p *TXT) Subtitle(subtitle string) {
 	p.Title(subtitle)
 }
 
-func (p *PrinterTXT) SubSubtitle(subtitle string) {
+func (p *TXT) SubSubtitle(subtitle string) {
 	p.Title(subtitle)
 }
 
-func (p *PrinterTXT) LineBreak() {
+func (p *TXT) LineBreak() {
 	fmt.Fprintf(p.Out, "\n")
 }
 
-func (p *PrinterTXT) Body(desc string) {
+func (p *TXT) Body(desc string) {
 	fmt.Fprintf(p.Out, "%s\n", desc)
 }
 
-func (p *PrinterTXT) Columns(columns []models.Columns) {
+func (p *TXT) Columns(columns []models.Columns) {
 	table.DefaultWriter = p.Out
 	tbl := table.New(
 		translate.T.Sprintf("table-title-name"),
@@ -55,7 +59,7 @@ func (p *PrinterTXT) Columns(columns []models.Columns) {
 	tbl.Print()
 }
 
-func (p *PrinterTXT) Table(t models.Table) {
+func (p *TXT) Table(t models.Table) {
 	p.Title(t.Name)
 	p.Body(t.Desc)
 
@@ -66,6 +70,6 @@ func (p *PrinterTXT) Table(t models.Table) {
 	p.LineBreak()
 }
 
-func (p *PrinterTXT) Done(desc models.Describe) {
+func (p *TXT) Done(desc models.Describe) {
 	_ = p.Out.(*os.File).Close()
 }

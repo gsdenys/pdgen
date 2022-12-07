@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	translate.InitLanguage()
+	translate.Register()
 
 	cmd.Execute()
 }

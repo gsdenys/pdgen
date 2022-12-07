@@ -3,6 +3,7 @@ package writer
 import (
 	"fmt"
 	"io"
+	"os"
 	"strings"
 
 	"github.com/fatih/color"
@@ -11,35 +12,39 @@ import (
 	"github.com/rodaine/table"
 )
 
-type PrinterConsole struct {
+type DEFAULT struct {
 	Out io.Writer
 }
 
-func (p *PrinterConsole) Init(desc models.Describe) {
-	// Do nothing because have nothing to initialise
+func (p *DEFAULT) SetWriter(path string) {
+	p.Out = os.Stdout
 }
 
-func (p *PrinterConsole) Title(title string) {
+func (p *DEFAULT) Init(desc models.Describe) {
+	p.Out = os.Stdout
+}
+
+func (p *DEFAULT) Title(title string) {
 	fmt.Fprintf(p.Out, "%s%s%s\n", string("\033[0;32m"), strings.ToUpper(title), string("\033[0m"))
 }
 
-func (p *PrinterConsole) Subtitle(subtitle string) {
+func (p *DEFAULT) Subtitle(subtitle string) {
 	p.Title(subtitle)
 }
 
-func (p *PrinterConsole) SubSubtitle(subtitle string) {
+func (p *DEFAULT) SubSubtitle(subtitle string) {
 	p.Title(subtitle)
 }
 
-func (p *PrinterConsole) LineBreak() {
+func (p *DEFAULT) LineBreak() {
 	fmt.Fprintf(p.Out, "\n")
 }
 
-func (p *PrinterConsole) Body(desc string) {
+func (p *DEFAULT) Body(desc string) {
 	fmt.Fprintf(p.Out, "%s%s\n", string("\033[0m"), desc)
 }
 
-func (p *PrinterConsole) Columns(columns []models.Columns) {
+func (p *DEFAULT) Columns(columns []models.Columns) {
 	table.DefaultWriter = p.Out
 	tbl := table.New(
 		translate.T.Sprintf("table-title-name"),
@@ -59,7 +64,7 @@ func (p *PrinterConsole) Columns(columns []models.Columns) {
 	tbl.Print()
 }
 
-func (p *PrinterConsole) Table(t models.Table) {
+func (p *DEFAULT) Table(t models.Table) {
 	p.Title(t.Name)
 	p.Body(t.Desc)
 
@@ -70,4 +75,4 @@ func (p *PrinterConsole) Table(t models.Table) {
 	p.LineBreak()
 }
 
-func (p *PrinterConsole) Done(desc models.Describe) {}
+func (p *DEFAULT) Done(desc models.Describe) {}

@@ -9,20 +9,9 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gsdenys/pdgen/pkg/models"
-	"github.com/gsdenys/pdgen/pkg/services/translate"
 	"github.com/stretchr/testify/assert"
 	"golang.org/x/text/message"
 )
-
-func createFile(path string) *os.File {
-	f, err := os.Create(path)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return f
-}
 
 func getWorkDir() string {
 	_, b, _, _ := runtime.Caller(0)
@@ -59,56 +48,56 @@ var baseTest models.Describe = models.Describe{
 }
 
 func TestPrinterJson_Init(t *testing.T) {
-	p := &PrinterJson{
+	p := &JSON{
 		Out: bytes.NewBuffer([]byte{}),
 	}
 	p.Init(baseTest)
 }
 
 func TestPrinterJson_Title(t *testing.T) {
-	p := &PrinterJson{
+	p := &JSON{
 		Out: bytes.NewBuffer([]byte{}),
 	}
 	p.Title("test")
 }
 
 func TestPrinterJson_Subtitle(t *testing.T) {
-	p := &PrinterJson{
+	p := &JSON{
 		Out: bytes.NewBuffer([]byte{}),
 	}
 	p.Subtitle("test")
 }
 
 func TestPrinterJson_SubSubtitle(t *testing.T) {
-	p := &PrinterJson{
+	p := &JSON{
 		Out: bytes.NewBuffer([]byte{}),
 	}
 	p.SubSubtitle("test")
 }
 
 func TestPrinterJson_LineBreak(t *testing.T) {
-	p := &PrinterJson{
+	p := &JSON{
 		Out: bytes.NewBuffer([]byte{}),
 	}
 	p.LineBreak()
 }
 
 func TestPrinterJson_Body(t *testing.T) {
-	p := &PrinterJson{
+	p := &JSON{
 		Out: bytes.NewBuffer([]byte{}),
 	}
 	p.Body("test")
 }
 
 func TestPrinterJson_Columns(t *testing.T) {
-	p := &PrinterJson{
+	p := &JSON{
 		Out: bytes.NewBuffer([]byte{}),
 	}
 	p.Columns([]models.Columns{})
 }
 
 func TestPrinterJson_Table(t *testing.T) {
-	p := &PrinterJson{
+	p := &JSON{
 		Out: bytes.NewBuffer([]byte{}),
 	}
 	p.Table(models.Table{})
@@ -131,8 +120,7 @@ func TestPrinterJson_Done(t *testing.T) {
 		{
 			name: "successful",
 			fields: fields{
-				Path:      getWorkDir() + uuid.NewString(),
-				Translate: translate.SetTranslation("en"),
+				Path: getWorkDir() + uuid.NewString(),
 			},
 			args: args{
 				desc: baseTest,
@@ -142,7 +130,7 @@ func TestPrinterJson_Done(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := &PrinterJson{
+			p := &JSON{
 				Out: createFile(tt.fields.Path),
 			}
 			p.Done(tt.args.desc)

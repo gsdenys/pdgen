@@ -4,156 +4,91 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"io"
-	"os"
+	"fmt"
+	"strings"
 
 	"github.com/gsdenys/pdgen/pkg/options"
 	"github.com/gsdenys/pdgen/pkg/services"
 	"github.com/gsdenys/pdgen/pkg/services/translate"
-	"github.com/gsdenys/pdgen/pkg/services/writer"
 	"github.com/spf13/cobra"
 )
 
 const (
-	defaultDatabaseURI   string = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
-	databaseUriName      string = "uri"
-	databaseUriShorthand string = "u"
-	databaseUriFlagDesc  string = "the database connection uri"
-
-	defaultDatabase   string = "postgres"
-	databaseName      string = "database"
-	databaseShorthand string = "d"
-	databaseFlagDesc  string = "the database to be described"
-
-	defaultSchema   string = "public"
-	schemaName      string = "schema"
-	schemaShorthand string = "s"
-	schemaFlagDesc  string = "the schema to be described"
-
-	defaultPath   string = ""
-	pathName      string = "out"
-	pathShorthand string = "o"
-	pathFlagDesc  string = "the description output file"
-
-	defaultLang   string = ""
-	lanName       string = "language"
-	langShorthand string = "l"
-	langFlagDesc  string = "the language selected to the output file"
+	defaultDatabaseURI string = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
 )
 
 var (
-	uri      string                = defaultDatabase
-	format   options.OutputOptions = options.Options["DEFAULT"]
-	schema   string                = defaultSchema
-	database string                = defaultDatabase
-	path     string                = ""
-	lang     string                = ""
+	uri      string
+	format   string
+	schema   string
+	database string
+	path     string
+	lang     string
 )
-
-func createFile(path string) io.Writer {
-	file, err := os.Create(path)
-
-	if err != nil {
-		panic("Error create file: " + err.Error())
-	}
-
-	return file
-}
 
 // describeCmd represents the describe command
 var describeCmd = &cobra.Command{
 	Use:   "describe",
 	Short: "Generate the data dictionary output",
-	Long: `Connect to the database and generate the data dictionary output 
-in the selected format that by default is a txt expressed at the
-standard output.`,
+	Long:  "Connect to the database and generate the data dictionary output in the selected format that by default is a txt expressed at the standard output.",
 	Run: func(cmd *cobra.Command, args []string) {
-		if lang != "" {
-			translate.SetTranslation(lang)
+		//Output language definition
+		if lang == "" {
+			translate.InitLanguage()
+		} else {
+			if !translate.SetLanguage(lang) {
+				fmt.Printf(
+					"Sorry, the language %s is not registered, try to use another: %v\n",
+					lang,
+					translate.GetKeys(),
+				)
+				return
+			}
 		}
 
-		oFormat := options.OutputOptions(format)
-
-		desc, err := services.Describe(uri, database, schema)
-		if err != nil {
-			println(err.Error())
+		//output format definition
+		oFormat := options.Options[strings.ToUpper(format)]
+		if oFormat == nil {
+			fmt.Printf(
+				"The format %s is not acceptable, please select one of: %v\n",
+				string(format),
+				options.GetKeys(),
+			)
 			return
 		}
 
+		//output path definition
 		if path == "" {
-			path = "output." + oFormat.String()
+			path = "output." + strings.ToLower(format)
 		}
 
-		var printer services.Printer
-		switch oFormat {
-		case options.Options["JSON"]:
-			printer = &writer.PrinterJson{
-				Out: createFile(path),
-			}
-		case options.Options["TXT"]:
-			printer = &writer.PrinterTXT{
-				Out: createFile(path),
-			}
-		case options.Options["MD"]:
-			printer = &writer.PrinterMD{
-				Out: createFile(path),
-			}
-		case options.Options["HTML"]:
-			printer = &writer.PrinterHTML{
-				Out: createFile(path),
-			}
-		default:
-			printer = &writer.PrinterConsole{
-				Out: os.Stdout,
-			}
+		//execute extractions
+		desc, err := services.Describe(uri, database, schema)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
 		}
 
-		services.PrintDocument(printer, *desc)
+		//set path for output and execute print
+		oFormat.SetWriter(path)
+		services.PrintDocument(oFormat, *desc)
+
+		if strings.ToUpper(format) != "DEFAULT" {
+			fmt.Printf("%s document created.\n", strings.ToUpper(format))
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(describeCmd)
 
-	describeCmd.Flags().VarP(&format, "format", "f", options.Message())
+	describeCmd.PersistentFlags().StringVarP(&format, "format", "f", "DEFAULT", options.Message())
+	describeCmd.PersistentFlags().StringVarP(&lang, "language", "l", "", "The language selected to the output file")
 
-	describeCmd.PersistentFlags().StringVarP(
-		&uri,
-		databaseUriName,
-		databaseUriShorthand,
-		defaultDatabaseURI,
-		databaseUriFlagDesc,
-	)
+	describeCmd.PersistentFlags().StringVarP(&uri, "uri", "u", defaultDatabaseURI, "The database connection uri")
 
-	describeCmd.PersistentFlags().StringVarP(
-		&database,
-		databaseName,
-		databaseShorthand,
-		defaultDatabase,
-		databaseFlagDesc,
-	)
+	describeCmd.PersistentFlags().StringVarP(&database, "database", "d", "postgres", "The database to be described")
+	describeCmd.PersistentFlags().StringVarP(&schema, "schema", "s", "public", "The schema to be described")
 
-	describeCmd.PersistentFlags().StringVarP(
-		&schema,
-		schemaName,
-		schemaShorthand,
-		defaultSchema,
-		schemaFlagDesc,
-	)
-
-	describeCmd.PersistentFlags().StringVarP(
-		&path,
-		pathName,
-		pathShorthand,
-		defaultPath,
-		pathFlagDesc,
-	)
-
-	describeCmd.PersistentFlags().StringVarP(
-		&lang,
-		lanName,
-		langShorthand,
-		defaultLang,
-		langFlagDesc,
-	)
+	describeCmd.PersistentFlags().StringVarP(&path, "output", "o", "", "The output file path")
 }

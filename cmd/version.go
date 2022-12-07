@@ -15,7 +15,7 @@ var versionCmd = &cobra.Command{
 	Short: "Print client version",
 	Long:  `Print the pdgen client version information`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("pdgen version v0.1.0")
+		fmt.Println("pdgen v1.0.0")
 	},
 }
 

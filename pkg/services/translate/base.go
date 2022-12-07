@@ -2,102 +2,66 @@ package translate
 
 import (
 	"fmt"
-	"os"
-	"os/exec"
-	"runtime"
-	"strings"
 
+	"github.com/Xuanwo/go-locale"
+	"github.com/gsdenys/pdgen/pkg/services/translate/lang"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 )
 
 var T *message.Printer
 
-const (
-	defaultLang string = "en"
-	defaultLoc  string = "US"
-)
+var RegLang map[string]language.Tag = make(map[string]language.Tag)
 
-type LangRegister interface {
-	Register()
+func GetKeys() []string {
+	var ret []string
+
+	for index := range RegLang {
+		ret = append(ret, index)
+	}
+
+	return ret
 }
 
-func getLocaleWindows() (string, string) {
-	cmd := exec.Command("powershell", "Get-Culture | select -exp Name")
-	output, err := cmd.Output()
+func getLocale() language.Tag {
+	tag, err := locale.Detect()
 	if err == nil {
-		langLocRaw := strings.TrimSpace(string(output))
-		langLoc := strings.Split(langLocRaw, "-")
-		lang := langLoc[0]
-		loc := langLoc[1]
-
-		return lang, loc
+		return tag
 	}
 
-	return defaultLang, defaultLang
-}
-
-func getLocaleDarwin() (string, string) {
-	cmd := exec.Command("sh", "osascript -e 'user locale of (get system info)'")
-	output, err := cmd.Output()
-	if err == nil {
-		langLocRaw := strings.TrimSpace(string(output))
-		langLoc := strings.Split(langLocRaw, "_")
-		lang := langLoc[0]
-		loc := langLoc[1]
-
-		return lang, loc
-	}
-
-	return defaultLang, defaultLoc
-}
-
-func getLocaleLinux() (string, string) {
-	envlang, ok := os.LookupEnv("LANG")
-	if ok {
-		langLocRaw := strings.Split(envlang, ".")[0]
-		langLoc := strings.Split(langLocRaw, "_")
-		lang := langLoc[0]
-		loc := langLoc[1]
-
-		return lang, loc
-	}
-
-	return defaultLang, defaultLoc
-}
-
-func getLocale() (string, string) {
-	osHost := runtime.GOOS
-	switch osHost {
-	case "windows":
-		return getLocaleWindows()
-	case "darwin":
-		return getLocaleDarwin()
-	case "linux":
-		return getLocaleLinux()
-	}
-
-	return defaultLang, defaultLoc
+	return language.AmericanEnglish
 }
 
 func InitLanguage() {
-	lang, loc := getLocale()
+	lang := getLocale()
 
-	SetTranslation(fmt.Sprintf("%s_%s", lang, loc))
-}
-
-func SetTranslation(l string) *message.Printer {
-	switch l {
-	case "pt", "pt_BR":
-		RegisterPT()
-		T = message.NewPrinter(language.BrazilianPortuguese)
-	case "fr", "fr_CA":
-		RegisterFR()
-		T = message.NewPrinter(language.CanadianFrench)
-	default:
-		RegisterEN()
-		T = message.NewPrinter(language.AmericanEnglish)
+	if _, ok := RegLang[lang.String()]; ok {
+		T = message.NewPrinter(RegLang[lang.String()])
+		return
 	}
 
-	return T
+	fmt.Printf("The language %s is not registered. Using %s\n", lang.String(), language.AmericanEnglish.String())
+	T = message.NewPrinter(language.AmericanEnglish)
+}
+
+func SetLanguage(lang string) bool {
+	for index := range RegLang {
+		if lang == RegLang[index].String() {
+			T = message.NewPrinter(RegLang[index])
+			return true
+		}
+	}
+
+	return false
+}
+
+func Register() {
+	RegLang[language.English.String()] = lang.AmericanEnglish(language.English)
+	RegLang[language.AmericanEnglish.String()] = lang.AmericanEnglish(language.AmericanEnglish)
+
+	RegLang[language.Portuguese.String()] = lang.BrazilianPortuguese(language.Portuguese)
+	RegLang[language.BrazilianPortuguese.String()] = lang.BrazilianPortuguese(language.BrazilianPortuguese)
+
+	RegLang[language.French.String()] = lang.CanadianFrench(language.French)
+	RegLang[language.CanadianFrench.String()] = lang.CanadianFrench(language.CanadianFrench)
 }

@@ -16,3 +16,4 @@
 dist
 bin
 **/test
+output.html

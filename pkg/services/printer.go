@@ -7,6 +7,7 @@ import (
 
 // Printer interface that must be implemented by every printer
 type Printer interface {
+	SetWriter(path string)
 	Init(desc models.Describe)
 	Title(title string)
 	Subtitle(subtitle string)

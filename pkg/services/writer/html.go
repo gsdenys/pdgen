@@ -127,35 +127,39 @@ const Footer string = `
 const cell_string_pattern string = "\t\t\t<td>%s</td>\n"
 const cell_string_header string = "\t\t\t<th>%s</th>\n"
 
-type PrinterHTML struct {
+type HTML struct {
 	Out io.Writer
 }
 
-func (p *PrinterHTML) Init(desc models.Describe) {
+func (p *HTML) SetWriter(path string) {
+	p.Out = createFile(path)
+}
+
+func (p *HTML) Init(desc models.Describe) {
 	fmt.Fprintf(p.Out, "%s\n", Base)
 }
 
-func (p *PrinterHTML) Title(title string) {
+func (p *HTML) Title(title string) {
 	fmt.Fprintf(p.Out, "\t<h1>%s</h1>\n", strings.ToUpper(title))
 }
 
-func (p *PrinterHTML) Subtitle(subtitle string) {
+func (p *HTML) Subtitle(subtitle string) {
 	fmt.Fprintf(p.Out, "\t<h2>%s</h2>\n", strings.ToUpper(subtitle))
 }
 
-func (p *PrinterHTML) SubSubtitle(subSubtitle string) {
+func (p *HTML) SubSubtitle(subSubtitle string) {
 	fmt.Fprintf(p.Out, "\t<h3>%s</h3>\n", strings.ToUpper(subSubtitle))
 }
 
-func (p *PrinterHTML) LineBreak() {
+func (p *HTML) LineBreak() {
 	fmt.Fprintf(p.Out, "\t<br>\n")
 }
 
-func (p *PrinterHTML) Body(desc string) {
+func (p *HTML) Body(desc string) {
 	fmt.Fprintf(p.Out, "\t<p>%s</p>\n", desc)
 }
 
-func (p *PrinterHTML) Columns(columns []models.Columns) {
+func (p *HTML) Columns(columns []models.Columns) {
 	fmt.Fprintf(p.Out, "\t%s\n", `<table class="styled-table">`)
 
 	//Table title
@@ -181,7 +185,7 @@ func (p *PrinterHTML) Columns(columns []models.Columns) {
 	fmt.Fprintf(p.Out, "\t</table>\n")
 }
 
-func (p *PrinterHTML) Table(t models.Table) {
+func (p *HTML) Table(t models.Table) {
 	p.SubSubtitle(t.Name)
 	p.Body(t.Desc)
 
@@ -192,7 +196,7 @@ func (p *PrinterHTML) Table(t models.Table) {
 	p.LineBreak()
 }
 
-func (p *PrinterHTML) Done(desc models.Describe) {
+func (p *HTML) Done(desc models.Describe) {
 	fmt.Fprintf(p.Out, "%s\n", Footer)
 	fmt.Fprintf(p.Out, "\n</body>\n\n</html>")
 

@@ -3,11 +3,15 @@ package database
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 
 	"github.com/gsdenys/pdgen/pkg/models"
-	"github.com/gsdenys/pdgen/pkg/services/translate"
 	_ "github.com/lib/pq"
 )
+
+func undefinedError() error {
+	return errors.New("undefined query error, try again or contact your DBA")
+}
 
 // This function will make a connection to the database only once.
 func Connect(driver string, uri string) (*sql.DB, error) {
@@ -16,11 +20,11 @@ func Connect(driver string, uri string) (*sql.DB, error) {
 	db, err := sql.Open(driver, uri)
 
 	if err != nil {
-		return nil, errors.New(translate.T.Sprintf("connect-error", uri))
+		return nil, errors.New(`error when try to connect to the database"`)
 	}
 
 	if err = db.Ping(); err != nil {
-		return nil, errors.New(translate.T.Sprintf("ping-error"))
+		return nil, errors.New("connection was created but ping fail, so no content is accessible")
 	}
 
 	return db, nil
@@ -32,11 +36,11 @@ func GetDatabaseComment(db *sql.DB, database string) (string, error) {
 
 	switch err := row.Scan(&desc); err {
 	case sql.ErrNoRows:
-		return "", errors.New(translate.T.Sprintf("db-not-found", database))
+		return "", fmt.Errorf("there no database named %s", database)
 	case nil:
 		return desc, nil
 	default:
-		return "", errors.New(translate.T.Sprintf("undefined-error"))
+		return "", undefinedError()
 	}
 }
 
@@ -45,11 +49,11 @@ func GetSchemaComment(db *sql.DB, schema string) (string, error) {
 	row := db.QueryRow(selectSchemaComment, schema)
 	switch err := row.Scan(&desc); err {
 	case sql.ErrNoRows:
-		return "", errors.New(translate.T.Sprintf("schema-not-found", schema))
+		return "", fmt.Errorf("there no schema named %s", schema)
 	case nil:
 		return desc, nil
 	default:
-		return "", errors.New(translate.T.Sprintf("undefined-error"))
+		return "", undefinedError()
 	}
 }
 
@@ -58,14 +62,14 @@ func GetAllTables(db *sql.DB, schema string) ([]models.Table, error) {
 
 	rows, err := db.Query(selectAllTables, schema)
 	if err != nil {
-		return nil, errors.New(translate.T.Sprintf("db-undefined-error"))
+		return nil, undefinedError()
 	}
 
 	for rows.Next() {
 		var table models.Table
 
 		if err := rows.Scan(&table.Name, &table.Desc); err != nil {
-			return nil, errors.New(translate.T.Sprintf("db-undefined-error"))
+			return nil, undefinedError()
 		}
 
 		tbl = append(tbl, table)
@@ -79,14 +83,14 @@ func GetTableColumns(db *sql.DB, schema string, table string) ([]models.Columns,
 
 	rows, err := db.Query(selectTable, schema, table)
 	if err != nil {
-		return nil, errors.New(translate.T.Sprintf("db-undefined-error"))
+		return nil, undefinedError()
 	}
 
 	for rows.Next() {
 		var c models.Columns
 
 		if err := rows.Scan(&c.Column, &c.Type, &c.Allow, &c.Comment); err != nil {
-			return nil, errors.New(translate.T.Sprintf("undefined-error"))
+			return nil, undefinedError()
 		}
 
 		tbl = append(tbl, c)
