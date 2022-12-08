@@ -8,6 +8,7 @@ import (
 )
 
 const successConnection string = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+const errorConnection string = "error://postgres:postgres@localhost:5432/postgres?sslmode=disable"
 
 func TestDescribe(t *testing.T) {
 	type args struct {

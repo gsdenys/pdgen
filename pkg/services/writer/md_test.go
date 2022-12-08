@@ -38,7 +38,7 @@ func TestMD_Title(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &MD{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Title("test")
@@ -55,7 +55,7 @@ func TestMD_Subtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &MD{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Subtitle("test")
@@ -72,7 +72,7 @@ func TestMD_SubSubtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &MD{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.SubSubtitle("test")
@@ -89,7 +89,7 @@ func TestMD_Body(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &MD{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Body("Some test")
@@ -106,7 +106,7 @@ func TestMD_LineBreak(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &MD{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.LineBreak()
@@ -123,7 +123,7 @@ func TestMD_Columns(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	html := &MD{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	translate.InitLanguage()
@@ -141,7 +141,7 @@ func TestMD_Table(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	md := &MD{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	translate.InitLanguage()
@@ -168,7 +168,7 @@ func TestMD_Done(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &MD{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Done(models.Describe{})

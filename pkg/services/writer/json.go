@@ -14,7 +14,7 @@ type JSON struct {
 }
 
 func (p *JSON) SetWriter(path string) {
-	p.Out = createFile(path)
+	p.Out = CreateFile(path)
 }
 
 func (p *JSON) Init(desc models.Describe) {

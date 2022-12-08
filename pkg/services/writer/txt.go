@@ -16,7 +16,7 @@ type TXT struct {
 }
 
 func (p *TXT) SetWriter(path string) {
-	p.Out = createFile(path)
+	p.Out = CreateFile(path)
 }
 
 func (p *TXT) Init(desc models.Describe) {

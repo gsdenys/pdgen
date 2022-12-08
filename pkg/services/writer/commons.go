@@ -8,7 +8,7 @@ import (
 
 var exit func(code int) = os.Exit
 
-func createFile(path string) io.Writer {
+func CreateFile(path string) io.Writer {
 	file, err := os.Create(path)
 
 	if err != nil {

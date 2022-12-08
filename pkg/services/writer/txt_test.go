@@ -32,7 +32,7 @@ func TestTXT_Title(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &TXT{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Title("test")
@@ -49,7 +49,7 @@ func TestTXT_Subtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &TXT{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Subtitle("test")
@@ -66,7 +66,7 @@ func TestTXT_SubSubTitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &TXT{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.SubSubtitle("test")
@@ -83,7 +83,7 @@ func TestTXT_LineBreak(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &TXT{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.LineBreak()
@@ -100,7 +100,7 @@ func TestTXT_Body(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &TXT{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Body("Some test")
@@ -117,7 +117,7 @@ func TestTXT_Columns(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &TXT{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	//columns is defined at html_test.go
@@ -136,7 +136,7 @@ func TestTXT_Table(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	md := &TXT{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	translate.InitLanguage()
@@ -163,7 +163,7 @@ func TestTXT_Done(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &TXT{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Done(models.Describe{})

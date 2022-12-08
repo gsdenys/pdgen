@@ -15,7 +15,7 @@ func Test_createFile(t *testing.T) {
 		ok = true
 	}
 
-	createFile("/usr/bin/test.txt")
+	CreateFile("/usr/bin/test.txt")
 
 	assert.True(t, ok)
 }
@@ -23,7 +23,7 @@ func Test_createFile(t *testing.T) {
 func Test_createFile_ok(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
-	createFile(file)
+	CreateFile(file)
 
 	_, err := os.ReadFile(file)
 	if err != nil {

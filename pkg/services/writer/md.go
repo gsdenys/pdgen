@@ -15,7 +15,7 @@ type MD struct {
 }
 
 func (p *MD) SetWriter(path string) {
-	p.Out = createFile(path)
+	p.Out = CreateFile(path)
 }
 
 func (p *MD) Init(desc models.Describe) {

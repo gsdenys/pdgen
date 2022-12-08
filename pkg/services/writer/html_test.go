@@ -31,7 +31,7 @@ func TestPrinterHTML_Init(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Init(models.Describe{})
@@ -48,7 +48,7 @@ func TestPrinterHTML_Title(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Title("test")
@@ -65,7 +65,7 @@ func TestPrinterHTML_Subtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Subtitle("test")
@@ -82,7 +82,7 @@ func TestPrinterHTML_SubSubtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.SubSubtitle("test")
@@ -99,7 +99,7 @@ func TestPrinterHTML_LineBreak(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.LineBreak()
@@ -116,7 +116,7 @@ func TestPrinterHTML_Body(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	p := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	p.Body("test")
@@ -133,7 +133,7 @@ func TestHTML_Columns(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	html := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	translate.InitLanguage()
@@ -161,7 +161,7 @@ func TestHTML_Table(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	html := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	translate.InitLanguage()
@@ -188,7 +188,7 @@ func TestHTML_Done(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
 	html := &HTML{
-		Out: createFile(file),
+		Out: CreateFile(file),
 	}
 
 	translate.InitLanguage()

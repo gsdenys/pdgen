@@ -84,7 +84,7 @@ type HTML struct {
 }
 
 func (p *HTML) SetWriter(path string) {
-	p.Out = createFile(path)
+	p.Out = CreateFile(path)
 }
 
 func (p *HTML) Init(desc models.Describe) {
