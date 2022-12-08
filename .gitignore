@@ -16,4 +16,9 @@
 dist
 bin
 **/test
+
+# project output
 output.html
+output.md
+output.txt
+output.json

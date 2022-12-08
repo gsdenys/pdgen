@@ -144,3 +144,13 @@ func TestPrinterJson_Done(t *testing.T) {
 		})
 	}
 }
+
+func TestJSON_SetWriter(t *testing.T) {
+	file := getWorkDir() + uuid.NewString()
+
+	p := &JSON{}
+	assert.Nil(t, p.Out)
+
+	p.SetWriter(file)
+	assert.NotNil(t, p.Out)
+}

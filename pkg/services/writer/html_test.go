@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const wantColumns string = "\t<table class=\"styled-table\">\n\t\t<tr class=\"active-row\">\n\t\t\t<th>table-title-name</th>\n\t\t\t<th>table-title-type</th>\n\t\t\t<th>table-title-allow</th>\n\t\t\t<th>table-title-comment</th>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>name</td>\n\t\t\t<td>text</td>\n\t\t\t<td></td>\n\t\t\t<td>Somme comment</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>type</td>\n\t\t\t<td>text</td>\n\t\t\t<td>BASE EXTENSION</td>\n\t\t\t<td>Another comment</td>\n\t\t</tr>\n\t</table>\n"
+const wantColumnsHtml string = "\t<table class=\"styled-table\">\n\t\t<tr class=\"active-row\">\n\t\t\t<th>table-title-name</th>\n\t\t\t<th>table-title-type</th>\n\t\t\t<th>table-title-allow</th>\n\t\t\t<th>table-title-comment</th>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>name</td>\n\t\t\t<td>text</td>\n\t\t\t<td></td>\n\t\t\t<td>Somme comment</td>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>type</td>\n\t\t\t<td>text</td>\n\t\t\t<td>BASE EXTENSION</td>\n\t\t\t<td>Another comment</td>\n\t\t</tr>\n\t</table>\n"
 
 var columns []models.Columns = []models.Columns{
 	{
@@ -144,7 +144,7 @@ func TestHTML_Columns(t *testing.T) {
 		t.Error(err)
 	}
 
-	assert.Equal(t, string(f), wantColumns)
+	assert.Equal(t, string(f), wantColumnsHtml)
 }
 
 func TestHTML_SetWriter(t *testing.T) {
@@ -179,7 +179,7 @@ func TestHTML_Table(t *testing.T) {
 		t.Error(err)
 	}
 
-	want := "\t<h3>TEST</h3>\n\t<p>Table test</p>\n\t<br>\n" + wantColumns + "\t<br>\n"
+	want := "\t<h3>TEST</h3>\n\t<p>Table test</p>\n\t<br>\n" + wantColumnsHtml + "\t<br>\n"
 
 	assert.Equal(t, string(f), want)
 }
