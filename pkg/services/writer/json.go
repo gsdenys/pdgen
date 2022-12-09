@@ -13,8 +13,15 @@ type JSON struct {
 	Out io.Writer
 }
 
-func (p *JSON) SetWriter(path string) {
-	p.Out = CreateFile(path)
+func (p *JSON) SetWriter(path string) error {
+	file, err := CreateFile(path)
+
+	if err != nil {
+		return err
+	}
+
+	p.Out = file
+	return nil
 }
 
 func (p *JSON) Init(desc models.Describe) {

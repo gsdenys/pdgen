@@ -159,9 +159,9 @@ func TestGetAllTables(t *testing.T) {
 	cnn.Close()
 
 	cnn = connError("postgres", successConnection)
-	res, _ := GetAllTables(cnn, "public")
+	res, err := GetAllTables(cnn, "public")
 
-	if res == nil {
+	if err != nil {
 		t.Error("No content found")
 	}
 
@@ -213,16 +213,13 @@ func TestGetTableColumns(t *testing.T) {
 					Comment: "name of test",
 				},
 			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := GetTableColumns(tt.args.db, tt.args.schema, tt.args.table)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetTableColumns() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
+			if !reflect.DeepEqual(got, tt.want) && (err != nil) == tt.wantErr {
 				t.Errorf("GetTableColumns() = %v, want %v", got, tt.want)
 			}
 		})

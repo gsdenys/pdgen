@@ -22,7 +22,7 @@ func TestMD_SetWriter(t *testing.T) {
 	p := &MD{}
 	assert.Nil(t, p.Out)
 
-	p.SetWriter(file)
+	_ = p.SetWriter(file)
 	assert.NotNil(t, p.Out)
 }
 
@@ -36,10 +36,12 @@ func TestMD_Init(t *testing.T) {
 
 func TestMD_Title(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &MD{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &MD{Out: oFile}
 
 	p.Title("test")
 
@@ -53,10 +55,12 @@ func TestMD_Title(t *testing.T) {
 
 func TestMD_Subtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &MD{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &MD{Out: oFile}
 
 	p.Subtitle("test")
 
@@ -70,10 +74,12 @@ func TestMD_Subtitle(t *testing.T) {
 
 func TestMD_SubSubtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &MD{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &MD{Out: oFile}
 
 	p.SubSubtitle("test")
 
@@ -87,10 +93,12 @@ func TestMD_SubSubtitle(t *testing.T) {
 
 func TestMD_Body(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &MD{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &MD{Out: oFile}
 
 	p.Body("Some test")
 
@@ -104,10 +112,12 @@ func TestMD_Body(t *testing.T) {
 
 func TestMD_LineBreak(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &MD{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &MD{Out: oFile}
 
 	p.LineBreak()
 
@@ -121,13 +131,15 @@ func TestMD_LineBreak(t *testing.T) {
 
 func TestMD_Columns(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	html := &MD{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
 
+	p := &MD{Out: oFile}
+
 	translate.InitLanguage()
-	html.Columns(columns)
+	p.Columns(columns)
 
 	f, err := os.ReadFile(file)
 	if err != nil {
@@ -139,10 +151,12 @@ func TestMD_Columns(t *testing.T) {
 
 func TestMD_Table(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	md := &MD{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &MD{Out: oFile}
 
 	translate.InitLanguage()
 
@@ -152,7 +166,7 @@ func TestMD_Table(t *testing.T) {
 		Columns: columns,
 	}
 
-	md.Table(table)
+	p.Table(table)
 
 	f, err := os.ReadFile(file)
 	if err != nil {
@@ -166,10 +180,12 @@ func TestMD_Table(t *testing.T) {
 
 func TestMD_Done(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &MD{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &MD{Out: oFile}
 
 	p.Done(models.Describe{})
 }

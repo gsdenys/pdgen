@@ -14,8 +14,15 @@ type MD struct {
 	Out io.Writer
 }
 
-func (p *MD) SetWriter(path string) {
-	p.Out = CreateFile(path)
+func (p *MD) SetWriter(path string) error {
+	file, err := CreateFile(path)
+
+	if err != nil {
+		return err
+	}
+
+	p.Out = file
+	return nil
 }
 
 func (p *MD) Init(desc models.Describe) {

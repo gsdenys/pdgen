@@ -41,6 +41,11 @@
     "horusecCliRepositoryName": "",
     "horusecCliReturnErrorIfFoundVulnerability": true,
     "horusecCliRiskAcceptHashes": [
+      "26ff56006b766f5047fff24b706d853adfc0b5701a299cfa9d9bf3ec3f31c1e2",
+      "a45950773d150ca62c7e99223194c3cc6d85d7dc45e0c2494408e7321c45f832",
+      "0f82c8f8c35b7b5f5e0c5add0b5a90e778515854c57131d1ab5db9ceea2e7686",
+      "64dcd0d5029252259269fbbcb9af30b7553e04bce3e6fe309d2284a46dbdbbb2",
+      "0cf75f6926069278386b8ed0c11787ed25acf14057045f33c62356850ccd9251",
       "fa48229ff450d7f312bc7c7c2c821550548c497e6878911e5eef20312c2b5538",
       "0b19a23b1045cbeb978cfa362fe601aadd83bf64c245b3d114fe5d1ca9434487",
       "51107a674ee5838dd2d3edce20abe1085e29aedf94bc8ddc53bfdcd62cacb275",
@@ -49,13 +54,12 @@
       "815b5437a09443289a4bbb01ed62d8700f0f72985722fcabae20650c119a8238",
       "65dd58a929bd40657a161cca2418b25ce7e345164942a92933e04841510ad158",
       "81606d9b560859ae981de0368b23d018446c2d74756fb6684e450907290e9b99",
-      "0cf75f6926069278386b8ed0c11787ed25acf14057045f33c62356850ccd9251",
-      "64dcd0d5029252259269fbbcb9af30b7553e04bce3e6fe309d2284a46dbdbbb2",
-      "0f82c8f8c35b7b5f5e0c5add0b5a90e778515854c57131d1ab5db9ceea2e7686",
-      "c98c12090390b9a72456aa9cbb2e8cb5261fc6b71a2e9fa509b80a9e82b0cdf3",
-      "1e21124c4c0b0bdf714f336c3263a3fef3d8613ab4323ae44d6a78bf3e8065c3"
+      "7998f9905a0c9c2207b019b1a81ff77e4e44a9cf176a18e238e42f43d00b5f37"
     ],
-    "horusecCliSeveritiesToIgnore": [],
+    "horusecCliSeveritiesToIgnore": [
+      "LOW",
+      "MEDIUM"
+    ],
     "horusecCliShowVulnerabilitiesTypes": [
     ],
     "horusecCliTimeoutInSecondsAnalysis": 1000,

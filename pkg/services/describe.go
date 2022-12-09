@@ -36,7 +36,6 @@ func Describe(uri string, db string, schema string) (*models.Describe, error) {
 		Desc: scDesc,
 	}
 
-	//get tables
 	tables, err := database.GetAllTables(conn, schema)
 	if err != nil {
 		return nil, err
@@ -49,7 +48,6 @@ func Describe(uri string, db string, schema string) (*models.Describe, error) {
 		if err != nil {
 			return nil, err
 		}
-
 		desc.Tables[i].Columns = columns
 	}
 

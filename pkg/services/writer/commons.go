@@ -1,20 +1,16 @@
 package writer
 
 import (
-	"fmt"
 	"io"
 	"os"
 )
 
-var exit func(code int) = os.Exit
-
-func CreateFile(path string) io.Writer {
+func CreateFile(path string) (io.Writer, error) {
 	file, err := os.Create(path)
 
 	if err != nil {
-		fmt.Println(err.Error())
-		exit(1)
+		return nil, err
 	}
 
-	return file
+	return file, nil
 }

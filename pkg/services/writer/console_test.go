@@ -19,7 +19,7 @@ func TestDEFAULT_SetWriter(t *testing.T) {
 	p := &DEFAULT{}
 	assert.Nil(t, p.Out)
 
-	p.SetWriter("some/path")
+	_ = p.SetWriter("some/path")
 	assert.NotNil(t, p.Out)
 	assert.Equal(t, p.Out, os.Stdout)
 }

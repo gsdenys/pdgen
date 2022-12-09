@@ -16,8 +16,10 @@ type DEFAULT struct {
 	Out io.Writer
 }
 
-func (p *DEFAULT) SetWriter(path string) {
+func (p *DEFAULT) SetWriter(path string) error {
 	p.Out = os.Stdout
+
+	return nil
 }
 
 func (p *DEFAULT) Init(desc models.Describe) {

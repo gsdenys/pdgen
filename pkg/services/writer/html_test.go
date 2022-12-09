@@ -29,10 +29,12 @@ var columns []models.Columns = []models.Columns{
 
 func TestPrinterHTML_Init(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &HTML{Out: oFile}
 
 	p.Init(models.Describe{})
 
@@ -46,11 +48,12 @@ func TestPrinterHTML_Init(t *testing.T) {
 
 func TestPrinterHTML_Title(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
 
+	p := &HTML{Out: oFile}
 	p.Title("test")
 
 	f, err := os.ReadFile(file)
@@ -63,10 +66,12 @@ func TestPrinterHTML_Title(t *testing.T) {
 
 func TestPrinterHTML_Subtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &HTML{Out: oFile}
 
 	p.Subtitle("test")
 
@@ -80,10 +85,12 @@ func TestPrinterHTML_Subtitle(t *testing.T) {
 
 func TestPrinterHTML_SubSubtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &HTML{Out: oFile}
 
 	p.SubSubtitle("test")
 
@@ -97,10 +104,12 @@ func TestPrinterHTML_SubSubtitle(t *testing.T) {
 
 func TestPrinterHTML_LineBreak(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &HTML{Out: oFile}
 
 	p.LineBreak()
 
@@ -114,10 +123,12 @@ func TestPrinterHTML_LineBreak(t *testing.T) {
 
 func TestPrinterHTML_Body(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &HTML{Out: oFile}
 
 	p.Body("test")
 
@@ -131,13 +142,15 @@ func TestPrinterHTML_Body(t *testing.T) {
 
 func TestHTML_Columns(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	html := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
 
+	p := &HTML{Out: oFile}
+
 	translate.InitLanguage()
-	html.Columns(columns)
+	p.Columns(columns)
 
 	f, err := os.ReadFile(file)
 	if err != nil {
@@ -153,16 +166,18 @@ func TestHTML_SetWriter(t *testing.T) {
 	p := &HTML{}
 	assert.Nil(t, p.Out)
 
-	p.SetWriter(file)
+	_ = p.SetWriter(file)
 	assert.NotNil(t, p.Out)
 }
 
 func TestHTML_Table(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	html := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &HTML{Out: oFile}
 
 	translate.InitLanguage()
 
@@ -172,7 +187,7 @@ func TestHTML_Table(t *testing.T) {
 		Columns: columns,
 	}
 
-	html.Table(table)
+	p.Table(table)
 
 	f, err := os.ReadFile(file)
 	if err != nil {
@@ -186,13 +201,15 @@ func TestHTML_Table(t *testing.T) {
 
 func TestHTML_Done(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	html := &HTML{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
 
+	p := &HTML{Out: oFile}
+
 	translate.InitLanguage()
-	html.Done(models.Describe{})
+	p.Done(models.Describe{})
 
 	f, err := os.ReadFile(file)
 	if err != nil {

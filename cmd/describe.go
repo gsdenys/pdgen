@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/gsdenys/pdgen/pkg/options"
@@ -26,34 +27,49 @@ var (
 	lang     string
 )
 
+var exit func(code int) = os.Exit
+
+func setLang(lang string) {
+	if lang == "" {
+		translate.InitLanguage()
+	} else {
+		if !translate.SetLanguage(lang) {
+			fmt.Printf(
+				"Sorry, the language %s is not registered, try to use another: %v\n",
+				lang,
+				translate.GetKeys(),
+			)
+			exit(1)
+		}
+	}
+}
+
+func getFormat(format string) (services.Printer, error) {
+	oFormat := options.Options[strings.ToUpper(format)]
+	if oFormat == nil {
+		return nil, fmt.Errorf(
+			"the format %s is not acceptable, please select one of: %v",
+			string(format),
+			options.GetKeys(),
+		)
+	}
+
+	return oFormat, nil
+}
+
 // describeCmd represents the describe command
 var describeCmd = &cobra.Command{
-	Use:   "describe",
-	Short: "Generate the data dictionary output",
-	Long:  "Connect to the database and generate the data dictionary output in the selected format that by default is a txt expressed at the standard output.",
+	SilenceErrors: false,
+	SilenceUsage:  false,
+	Use:           "describe",
+	Short:         "Generate the data dictionary output",
+	Long:          "Connect to the database and generate the data dictionary output in the selected format that by default is a txt expressed at the standard output.",
 	Run: func(cmd *cobra.Command, args []string) {
-		//Output language definition
-		if lang == "" {
-			translate.InitLanguage()
-		} else {
-			if !translate.SetLanguage(lang) {
-				fmt.Printf(
-					"Sorry, the language %s is not registered, try to use another: %v\n",
-					lang,
-					translate.GetKeys(),
-				)
-				return
-			}
-		}
+		setLang(lang)
 
-		//output format definition
-		oFormat := options.Options[strings.ToUpper(format)]
-		if oFormat == nil {
-			fmt.Printf(
-				"The format %s is not acceptable, please select one of: %v\n",
-				string(format),
-				options.GetKeys(),
-			)
+		oFormat, err := getFormat(format)
+		if err != nil {
+			cmd.PrintErr(err.Error())
 			return
 		}
 
@@ -62,19 +78,25 @@ var describeCmd = &cobra.Command{
 			path = "output." + strings.ToLower(format)
 		}
 
+		fmt.Printf("database: %s, schema: %s", database, schema)
 		//execute extractions
 		desc, err := services.Describe(uri, database, schema)
 		if err != nil {
-			fmt.Println(err.Error())
+			cmd.PrintErr(err.Error())
 			return
 		}
 
 		//set path for output and execute print
-		oFormat.SetWriter(path)
+		err = oFormat.SetWriter(path)
+		if err != nil {
+			cmd.PrintErr(err.Error())
+			return
+		}
+
 		services.PrintDocument(oFormat, *desc)
 
 		if strings.ToUpper(format) != "DEFAULT" {
-			fmt.Printf("%s document created.\n", strings.ToUpper(format))
+			cmd.Printf("%s document created.\n", strings.ToUpper(format))
 		}
 	},
 }

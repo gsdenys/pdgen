@@ -16,7 +16,7 @@ func TestTXT_SetWriter(t *testing.T) {
 	p := &TXT{}
 	assert.Nil(t, p.Out)
 
-	p.SetWriter(file)
+	_ = p.SetWriter(file)
 	assert.NotNil(t, p.Out)
 }
 
@@ -30,10 +30,12 @@ func TestTXT_Init(t *testing.T) {
 
 func TestTXT_Title(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &TXT{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &TXT{Out: oFile}
 
 	p.Title("test")
 
@@ -47,10 +49,12 @@ func TestTXT_Title(t *testing.T) {
 
 func TestTXT_Subtitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &TXT{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &TXT{Out: oFile}
 
 	p.Subtitle("test")
 
@@ -64,10 +68,12 @@ func TestTXT_Subtitle(t *testing.T) {
 
 func TestTXT_SubSubTitle(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &TXT{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &TXT{Out: oFile}
 
 	p.SubSubtitle("test")
 
@@ -81,10 +87,12 @@ func TestTXT_SubSubTitle(t *testing.T) {
 
 func TestTXT_LineBreak(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &TXT{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &TXT{Out: oFile}
 
 	p.LineBreak()
 
@@ -98,10 +106,12 @@ func TestTXT_LineBreak(t *testing.T) {
 
 func TestTXT_Body(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &TXT{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &TXT{Out: oFile}
 
 	p.Body("Some test")
 
@@ -115,10 +125,12 @@ func TestTXT_Body(t *testing.T) {
 
 func TestTXT_Columns(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &TXT{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &TXT{Out: oFile}
 
 	//columns is defined at html_test.go
 	translate.InitLanguage()
@@ -134,10 +146,12 @@ func TestTXT_Columns(t *testing.T) {
 
 func TestTXT_Table(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	md := &TXT{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &TXT{Out: oFile}
 
 	translate.InitLanguage()
 
@@ -147,7 +161,7 @@ func TestTXT_Table(t *testing.T) {
 		Columns: columns,
 	}
 
-	md.Table(table)
+	p.Table(table)
 
 	f, err := os.ReadFile(file)
 	if err != nil {
@@ -161,10 +175,12 @@ func TestTXT_Table(t *testing.T) {
 
 func TestTXT_Done(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
-
-	p := &TXT{
-		Out: CreateFile(file),
+	oFile, err := CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &TXT{Out: oFile}
 
 	p.Done(models.Describe{})
 }

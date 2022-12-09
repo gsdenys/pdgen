@@ -77,9 +77,13 @@ func TestPrintDocument(t *testing.T) {
 	}
 
 	translate.InitLanguage()
-	p := &writer.TXT{
-		Out: writer.CreateFile(file),
+
+	oFile, err := writer.CreateFile(file)
+	if err != nil {
+		t.Error(err)
 	}
+
+	p := &writer.TXT{Out: oFile}
 
 	PrintDocument(p, desc)
 

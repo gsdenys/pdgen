@@ -15,8 +15,15 @@ type TXT struct {
 	Out io.Writer
 }
 
-func (p *TXT) SetWriter(path string) {
-	p.Out = CreateFile(path)
+func (p *TXT) SetWriter(path string) error {
+	file, err := CreateFile(path)
+
+	if err != nil {
+		return err
+	}
+
+	p.Out = file
+	return nil
 }
 
 func (p *TXT) Init(desc models.Describe) {

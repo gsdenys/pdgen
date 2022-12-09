@@ -130,9 +130,12 @@ func TestPrinterJson_Done(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			p := &JSON{
-				Out: CreateFile(tt.fields.Path),
+			file, err := CreateFile(tt.fields.Path)
+			if err != nil {
+				t.Error(err)
 			}
+
+			p := &JSON{Out: file}
 			p.Done(tt.args.desc)
 
 			b, err := os.ReadFile(tt.fields.Path)
@@ -151,6 +154,6 @@ func TestJSON_SetWriter(t *testing.T) {
 	p := &JSON{}
 	assert.Nil(t, p.Out)
 
-	p.SetWriter(file)
+	_ = p.SetWriter(file)
 	assert.NotNil(t, p.Out)
 }

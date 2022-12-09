@@ -83,8 +83,15 @@ type HTML struct {
 	Out io.Writer
 }
 
-func (p *HTML) SetWriter(path string) {
-	p.Out = CreateFile(path)
+func (p *HTML) SetWriter(path string) error {
+	file, err := CreateFile(path)
+
+	if err != nil {
+		return err
+	}
+
+	p.Out = file
+	return nil
 }
 
 func (p *HTML) Init(desc models.Describe) {

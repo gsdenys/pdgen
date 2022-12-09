@@ -9,21 +9,16 @@ import (
 )
 
 func Test_createFile(t *testing.T) {
-	var ok bool = false // The default value can be omitted :)
+	file, err := CreateFile("/usr/bin/test.txt")
 
-	exit = func(c int) {
-		ok = true
-	}
-
-	CreateFile("/usr/bin/test.txt")
-
-	assert.True(t, ok)
+	assert.Nil(t, file)
+	assert.Error(t, err)
 }
 
 func Test_createFile_ok(t *testing.T) {
 	file := getWorkDir() + uuid.NewString()
 
-	CreateFile(file)
+	_, _ = CreateFile(file)
 
 	_, err := os.ReadFile(file)
 	if err != nil {

@@ -11,7 +11,7 @@ import (
 
 // Options for output format
 var Options = map[string]services.Printer{
-	"DEFAULT": &writer.DEFAULT{Out: nil},
+	"DEFAULT": &writer.DEFAULT{},
 	"MD":      &writer.MD{},
 	"TXT":     &writer.TXT{},
 	"HTML":    &writer.HTML{},
