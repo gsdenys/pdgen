@@ -22,6 +22,11 @@ const script string = `
    COMMENT ON COLUMN test.name IS 'name of test';
 	`
 
+func connError(driver string, uri string) *sql.DB {
+	conn, _ := Connect(driver, uri)
+	return conn
+}
+
 func TestConnect(t *testing.T) {
 	type args struct {
 		driver string
@@ -59,7 +64,7 @@ func TestConnect(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Connect(tt.args.driver, tt.args.uri); !reflect.DeepEqual(got == nil, tt.wantErr) {
+			if got := connError(tt.args.driver, tt.args.uri); !reflect.DeepEqual(got == nil, tt.wantErr) {
 				t.Errorf("Connect() = %v, want %v", got, tt.wantErr)
 			}
 		})
@@ -79,7 +84,7 @@ func TestGetDatabaseComment(t *testing.T) {
 		{
 			name: "comment-retrieved",
 			args: args{
-				db:       Connect("postgres", successConnection),
+				db:       connError("postgres", successConnection),
 				database: "postgres",
 			},
 			want: "standard public database",
@@ -87,7 +92,7 @@ func TestGetDatabaseComment(t *testing.T) {
 		{
 			name: "comment-not-retrieved",
 			args: args{
-				db:       Connect("postgres", successConnection),
+				db:       connError("postgres", successConnection),
 				database: "bla",
 			},
 			want: "",
@@ -116,7 +121,7 @@ func TestGetSchemaComment(t *testing.T) {
 		{
 			name: "comment-retrieved",
 			args: args{
-				db:     Connect("postgres", successConnection),
+				db:     connError("postgres", successConnection),
 				schema: "public",
 			},
 			want: "standard public schema",
@@ -124,7 +129,7 @@ func TestGetSchemaComment(t *testing.T) {
 		{
 			name: "no-schema",
 			args: args{
-				db:     Connect("postgres", successConnection),
+				db:     connError("postgres", successConnection),
 				schema: "bla",
 			},
 			want:    "",
@@ -147,16 +152,16 @@ func TestGetSchemaComment(t *testing.T) {
 
 func TestGetAllTables(t *testing.T) {
 
-	cnn := Connect("postgres", successConnection)
+	cnn := connError("postgres", successConnection)
 	if _, err := cnn.Exec(script); err != nil {
 		t.Errorf("create table and comments error: %s", err.Error())
 	}
 	cnn.Close()
 
-	cnn = Connect("postgres", successConnection)
-	res, _ := GetAllTables(cnn, "public")
+	cnn = connError("postgres", successConnection)
+	res, err := GetAllTables(cnn, "public")
 
-	if res == nil {
+	if err != nil {
 		t.Error("No content found")
 	}
 
@@ -170,7 +175,7 @@ func TestGetAllTables(t *testing.T) {
 }
 
 func TestGetTableColumns(t *testing.T) {
-	cnn := Connect("postgres", successConnection)
+	cnn := connError("postgres", successConnection)
 	if _, err := cnn.Exec(script); err != nil {
 		t.Errorf("create table and comments error: %s", err.Error())
 	}
@@ -190,7 +195,7 @@ func TestGetTableColumns(t *testing.T) {
 		{
 			name: "success-retrieve-data",
 			args: args{
-				db:     Connect("postgres", successConnection),
+				db:     connError("postgres", successConnection),
 				schema: "public",
 				table:  "test",
 			},
@@ -208,16 +213,13 @@ func TestGetTableColumns(t *testing.T) {
 					Comment: "name of test",
 				},
 			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := GetTableColumns(tt.args.db, tt.args.schema, tt.args.table)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetTableColumns() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(got, tt.want) {
+			if !reflect.DeepEqual(got, tt.want) && (err != nil) == tt.wantErr {
 				t.Errorf("GetTableColumns() = %v, want %v", got, tt.want)
 			}
 		})

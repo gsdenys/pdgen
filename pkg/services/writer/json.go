@@ -7,54 +7,59 @@ import (
 	"os"
 
 	"github.com/gsdenys/pdgen/pkg/models"
-	"golang.org/x/text/message"
 )
 
-type PrinterJson struct {
-	Out       io.Writer
-	Translate *message.Printer
+type JSON struct {
+	Out io.Writer
 }
 
-func (p *PrinterJson) Init(desc models.Describe) {
+func (p *JSON) SetWriter(path string) error {
+	file, err := CreateFile(path)
+
+	if err != nil {
+		return err
+	}
+
+	p.Out = file
+	return nil
+}
+
+func (p *JSON) Init(desc models.Describe) {
 	// Do nothing because have nothing to initialise
 }
 
-func (p *PrinterJson) Title(title string) {
+func (p *JSON) Title(title string) {
 	//Do nothing because the unique action of this writer is Done
 }
 
-func (p *PrinterJson) Subtitle(subtitle string) {
+func (p *JSON) Subtitle(subtitle string) {
 	//Do nothing because the unique action of this writer is Done
 }
 
-func (p *PrinterJson) SubSubtitle(subSubtitle string) {
+func (p *JSON) SubSubtitle(subSubtitle string) {
 	//Do nothing because the unique action of this writer is Done
 }
 
-func (p *PrinterJson) LineBreak() {
+func (p *JSON) LineBreak() {
 	//Do nothing because the unique action of this writer is Done
 }
 
-func (p *PrinterJson) Body(desc string) {
+func (p *JSON) Body(desc string) {
 	//Do nothing because the unique action of this writer is Done
 }
 
-func (p *PrinterJson) Columns(columns []models.Columns) {
+func (p *JSON) Columns(columns []models.Columns) {
 	//Do nothing because the unique action of this writer is Done
 }
 
-func (p *PrinterJson) Table(t models.Table) {
+func (p *JSON) Table(t models.Table) {
 	//Do nothing because the unique action of this writer is Done
 }
 
-func (p *PrinterJson) Done(desc models.Describe) {
+func (p *JSON) Done(desc models.Describe) {
 	b, _ := json.MarshalIndent(desc, "", "    ")
 
 	fmt.Fprintf(p.Out, "%s", string(b))
 
 	_ = p.Out.(*os.File).Close()
-}
-
-func (p *PrinterJson) GetLanguage() *message.Printer {
-	return p.Translate
 }

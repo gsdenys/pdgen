@@ -8,7 +8,10 @@ import (
 func Describe(uri string, db string, schema string) (*models.Describe, error) {
 	desc := &models.Describe{}
 
-	conn := database.Connect("postgres", uri)
+	conn, err := database.Connect("postgres", uri)
+	if err != nil {
+		return nil, err
+	}
 	defer conn.Close()
 
 	// get Database Info
@@ -33,7 +36,6 @@ func Describe(uri string, db string, schema string) (*models.Describe, error) {
 		Desc: scDesc,
 	}
 
-	//get tables
 	tables, err := database.GetAllTables(conn, schema)
 	if err != nil {
 		return nil, err
@@ -46,7 +48,6 @@ func Describe(uri string, db string, schema string) (*models.Describe, error) {
 		if err != nil {
 			return nil, err
 		}
-
 		desc.Tables[i].Columns = columns
 	}
 

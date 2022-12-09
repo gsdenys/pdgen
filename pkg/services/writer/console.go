@@ -3,50 +3,56 @@ package writer
 import (
 	"fmt"
 	"io"
+	"os"
 	"strings"
 
 	"github.com/fatih/color"
 	"github.com/gsdenys/pdgen/pkg/models"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 	"github.com/rodaine/table"
-	"golang.org/x/text/message"
 )
 
-type PrinterConsole struct {
-	Out       io.Writer
-	Translate *message.Printer
+type DEFAULT struct {
+	Out io.Writer
 }
 
-func (p *PrinterConsole) Init(desc models.Describe) {
-	// Do nothing because have nothing to initialise
+func (p *DEFAULT) SetWriter(path string) error {
+	p.Out = os.Stdout
+
+	return nil
 }
 
-func (p *PrinterConsole) Title(title string) {
+func (p *DEFAULT) Init(desc models.Describe) {
+	p.Out = os.Stdout
+}
+
+func (p *DEFAULT) Title(title string) {
 	fmt.Fprintf(p.Out, "%s%s%s\n", string("\033[0;32m"), strings.ToUpper(title), string("\033[0m"))
 }
 
-func (p *PrinterConsole) Subtitle(subtitle string) {
+func (p *DEFAULT) Subtitle(subtitle string) {
 	p.Title(subtitle)
 }
 
-func (p *PrinterConsole) SubSubtitle(subtitle string) {
+func (p *DEFAULT) SubSubtitle(subtitle string) {
 	p.Title(subtitle)
 }
 
-func (p *PrinterConsole) LineBreak() {
+func (p *DEFAULT) LineBreak() {
 	fmt.Fprintf(p.Out, "\n")
 }
 
-func (p *PrinterConsole) Body(desc string) {
+func (p *DEFAULT) Body(desc string) {
 	fmt.Fprintf(p.Out, "%s%s\n", string("\033[0m"), desc)
 }
 
-func (p *PrinterConsole) Columns(columns []models.Columns) {
+func (p *DEFAULT) Columns(columns []models.Columns) {
 	table.DefaultWriter = p.Out
 	tbl := table.New(
-		p.Translate.Sprintf("table-title-name"),
-		p.Translate.Sprintf("table-title-type"),
-		p.Translate.Sprintf("table-title-allow"),
-		p.Translate.Sprintf("table-title-comment"),
+		translate.T.Sprintf("table-title-name"),
+		translate.T.Sprintf("table-title-type"),
+		translate.T.Sprintf("table-title-allow"),
+		translate.T.Sprintf("table-title-comment"),
 	)
 
 	headerFmt := color.New(color.FgGreen, color.Underline).SprintfFunc()
@@ -60,7 +66,7 @@ func (p *PrinterConsole) Columns(columns []models.Columns) {
 	tbl.Print()
 }
 
-func (p *PrinterConsole) Table(t models.Table) {
+func (p *DEFAULT) Table(t models.Table) {
 	p.Title(t.Name)
 	p.Body(t.Desc)
 
@@ -71,8 +77,4 @@ func (p *PrinterConsole) Table(t models.Table) {
 	p.LineBreak()
 }
 
-func (p *PrinterConsole) GetLanguage() *message.Printer {
-	return p.Translate
-}
-
-func (p *PrinterConsole) Done(desc models.Describe) {}
+func (p *DEFAULT) Done(desc models.Describe) {}

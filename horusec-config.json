@@ -41,17 +41,25 @@
     "horusecCliRepositoryName": "",
     "horusecCliReturnErrorIfFoundVulnerability": true,
     "horusecCliRiskAcceptHashes": [
-        "7998f9905a0c9c2207b019b1a81ff77e4e44a9cf176a18e238e42f43d00b5f37",
-        "5d7bd901f3555a81490fc73269d63e2e50a07dcf4700a8fd8a732b31cc3c9c50",
-        "f141b58989f92c07c472cc0a620c4aa4ab7c7393cb087ccbc7a55a4e376fd1ea",
-        "7e8da7eee7887a0b5c28c5c17a8a0955539125a503d3cdad512312c326e682dd",
-        "67f8c9db80670cfeae911766e2efeb05cb56e7eec47a56ea79a1569d5d83ba06",
-        "89524cd97d02bf68511704744b5ccc2cc6a57bf2c06cec62000a56729f68c0b5",
-        "67b56c6e619ab6db5d9ae0a4f5840fe77f2a77a24ab091469a6b4cccf08553fb",
-        "3b01cc5e0cdf56140d4d05a097fa88a43187cbb8ee623b79896488ee7206b239"
-
+      "26ff56006b766f5047fff24b706d853adfc0b5701a299cfa9d9bf3ec3f31c1e2",
+      "a45950773d150ca62c7e99223194c3cc6d85d7dc45e0c2494408e7321c45f832",
+      "0f82c8f8c35b7b5f5e0c5add0b5a90e778515854c57131d1ab5db9ceea2e7686",
+      "64dcd0d5029252259269fbbcb9af30b7553e04bce3e6fe309d2284a46dbdbbb2",
+      "0cf75f6926069278386b8ed0c11787ed25acf14057045f33c62356850ccd9251",
+      "fa48229ff450d7f312bc7c7c2c821550548c497e6878911e5eef20312c2b5538",
+      "0b19a23b1045cbeb978cfa362fe601aadd83bf64c245b3d114fe5d1ca9434487",
+      "51107a674ee5838dd2d3edce20abe1085e29aedf94bc8ddc53bfdcd62cacb275",
+      "11ce1f960152bde3e69a6d2b5d5d56219fa88615a96ff45e9c5a572fe50b0be7",
+      "21e3fd61e151ac9d0d96972d332f15030d09d4d6121b6023e79679e6a23e8f22",
+      "815b5437a09443289a4bbb01ed62d8700f0f72985722fcabae20650c119a8238",
+      "65dd58a929bd40657a161cca2418b25ce7e345164942a92933e04841510ad158",
+      "81606d9b560859ae981de0368b23d018446c2d74756fb6684e450907290e9b99",
+      "7998f9905a0c9c2207b019b1a81ff77e4e44a9cf176a18e238e42f43d00b5f37"
     ],
-    "horusecCliSeveritiesToIgnore": [],
+    "horusecCliSeveritiesToIgnore": [
+      "LOW",
+      "MEDIUM"
+    ],
     "horusecCliShowVulnerabilitiesTypes": [
     ],
     "horusecCliTimeoutInSecondsAnalysis": 1000,

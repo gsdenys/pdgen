@@ -7,46 +7,56 @@ import (
 	"strings"
 
 	"github.com/gsdenys/pdgen/pkg/models"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 	"github.com/rodaine/table"
-	"golang.org/x/text/message"
 )
 
-type PrinterTXT struct {
-	Out       io.Writer
-	Translate *message.Printer
+type TXT struct {
+	Out io.Writer
 }
 
-func (p *PrinterTXT) Init(desc models.Describe) {
+func (p *TXT) SetWriter(path string) error {
+	file, err := CreateFile(path)
+
+	if err != nil {
+		return err
+	}
+
+	p.Out = file
+	return nil
+}
+
+func (p *TXT) Init(desc models.Describe) {
 	// Do nothing because have nothing to initialise
 }
 
-func (p *PrinterTXT) Title(title string) {
+func (p *TXT) Title(title string) {
 	fmt.Fprintf(p.Out, "%s\n", strings.ToUpper(title))
 }
 
-func (p *PrinterTXT) Subtitle(subtitle string) {
+func (p *TXT) Subtitle(subtitle string) {
 	p.Title(subtitle)
 }
 
-func (p *PrinterTXT) SubSubtitle(subtitle string) {
+func (p *TXT) SubSubtitle(subtitle string) {
 	p.Title(subtitle)
 }
 
-func (p *PrinterTXT) LineBreak() {
+func (p *TXT) LineBreak() {
 	fmt.Fprintf(p.Out, "\n")
 }
 
-func (p *PrinterTXT) Body(desc string) {
+func (p *TXT) Body(desc string) {
 	fmt.Fprintf(p.Out, "%s\n", desc)
 }
 
-func (p *PrinterTXT) Columns(columns []models.Columns) {
+func (p *TXT) Columns(columns []models.Columns) {
 	table.DefaultWriter = p.Out
 	tbl := table.New(
-		p.Translate.Sprintf("table-title-name"),
-		p.Translate.Sprintf("table-title-type"),
-		p.Translate.Sprintf("table-title-allow"),
-		p.Translate.Sprintf("table-title-comment"),
+		translate.T.Sprintf("table-title-name"),
+		translate.T.Sprintf("table-title-type"),
+		translate.T.Sprintf("table-title-allow"),
+		translate.T.Sprintf("table-title-comment"),
 	)
 
 	for c := range columns {
@@ -56,7 +66,7 @@ func (p *PrinterTXT) Columns(columns []models.Columns) {
 	tbl.Print()
 }
 
-func (p *PrinterTXT) Table(t models.Table) {
+func (p *TXT) Table(t models.Table) {
 	p.Title(t.Name)
 	p.Body(t.Desc)
 
@@ -67,10 +77,6 @@ func (p *PrinterTXT) Table(t models.Table) {
 	p.LineBreak()
 }
 
-func (p *PrinterTXT) Done(desc models.Describe) {
+func (p *TXT) Done(desc models.Describe) {
 	_ = p.Out.(*os.File).Close()
-}
-
-func (p *PrinterTXT) GetLanguage() *message.Printer {
-	return p.Translate
 }

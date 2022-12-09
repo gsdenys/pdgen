@@ -2,11 +2,12 @@ package services
 
 import (
 	"github.com/gsdenys/pdgen/pkg/models"
-	"golang.org/x/text/message"
+	"github.com/gsdenys/pdgen/pkg/services/translate"
 )
 
 // Printer interface that must be implemented by every printer
 type Printer interface {
+	SetWriter(path string) error
 	Init(desc models.Describe)
 	Title(title string)
 	Subtitle(subtitle string)
@@ -16,12 +17,11 @@ type Printer interface {
 	Columns(columns []models.Columns)
 	Table(t models.Table)
 	Done(desc models.Describe)
-	GetLanguage() *message.Printer
 }
 
 func PrintDocument(p Printer, desc models.Describe) {
 	p.Init(desc)
-	t := p.GetLanguage()
+	t := translate.T
 
 	p.Title(t.Sprintf("title"))
 	p.LineBreak()
