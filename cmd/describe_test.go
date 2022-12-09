@@ -124,7 +124,7 @@ func Test_describeCmd(t *testing.T) {
 				actual: bytes.NewBuffer([]byte{}),
 				arg:    []string{"describe", "-ftxt", "-o/usr/bin/test.txt"},
 			},
-			want: "open /usr/bin/test.txt: operation not permitted",
+			want: "open /usr/bin/test.txt: permission denied",
 		},
 		{
 			name: "dbNotFound",
