@@ -1,5 +1,20 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
 */
 package cmd
 
@@ -29,6 +44,8 @@ var (
 
 var exit func(code int) = os.Exit
 
+// setLang function to initialize the output language. case it has no set, the default selected
+// will be the system language.
 func setLang(lang string) {
 	if lang == "" {
 		translate.InitLanguage()
@@ -44,6 +61,7 @@ func setLang(lang string) {
 	}
 }
 
+// getFormat function to obtain the format based on received parameter
 func getFormat(format string) (services.Printer, error) {
 	oFormat := options.Options[strings.ToUpper(format)]
 	if oFormat == nil {
@@ -101,6 +119,7 @@ var describeCmd = &cobra.Command{
 	},
 }
 
+// init function to initialize de commanda lide
 func init() {
 	rootCmd.AddCommand(describeCmd)
 
