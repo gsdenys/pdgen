@@ -25,6 +25,7 @@ import (
 
 	"github.com/gsdenys/pdgen/pkg/models"
 	_ "github.com/lib/pq"
+	"github.com/stretchr/testify/assert"
 )
 
 const successConnection string = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
@@ -242,4 +243,11 @@ func TestGetTableColumns(t *testing.T) {
 			}
 		})
 	}
+}
+
+func Test_undefinedQueryError(t *testing.T) {
+	err := undefinedQueryError()
+
+	assert.NotNil(t, err)
+	assert.Equal(t, err.Error(), "undefined query error, try again or contact your DBA")
 }

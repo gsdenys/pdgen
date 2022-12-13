@@ -32,6 +32,7 @@ var T *message.Printer
 
 var RegLang map[string]language.Tag = make(map[string]language.Tag)
 
+// GetKeys returns a string array containing all defined languages
 func GetKeys() []string {
 	var ret []string
 
@@ -44,6 +45,7 @@ func GetKeys() []string {
 	return ret
 }
 
+// getLocale returns the system language. Case not detected, it returns AmericanEnglish
 func getLocale() language.Tag {
 	tag, err := locale.Detect()
 	if err == nil {
@@ -53,6 +55,7 @@ func getLocale() language.Tag {
 	return language.AmericanEnglish
 }
 
+// InitLanguage starts the processo to select and detect the system language
 func InitLanguage() {
 	lang := getLocale()
 
@@ -65,6 +68,7 @@ func InitLanguage() {
 	T = message.NewPrinter(language.AmericanEnglish)
 }
 
+// SetLanguage enable the user select the language manually
 func SetLanguage(lang string) bool {
 	for index := range RegLang {
 		if lang == RegLang[index].String() {
@@ -76,6 +80,7 @@ func SetLanguage(lang string) bool {
 	return false
 }
 
+// Register all disponibles languages
 func Register() {
 	RegLang[language.English.String()] = lang.AmericanEnglish(language.English)
 	RegLang[language.AmericanEnglish.String()] = lang.AmericanEnglish(language.AmericanEnglish)
@@ -85,4 +90,6 @@ func Register() {
 
 	RegLang[language.French.String()] = lang.CanadianFrench(language.French)
 	RegLang[language.CanadianFrench.String()] = lang.CanadianFrench(language.CanadianFrench)
+
+	// In case of new language creation register it here
 }

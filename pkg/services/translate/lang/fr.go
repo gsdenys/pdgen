@@ -23,6 +23,7 @@ import (
 	"golang.org/x/text/message"
 )
 
+// CanadianFrench language definition
 func CanadianFrench(lang language.Tag) language.Tag {
 	_ = message.SetString(lang, "title", "Dictionnaire de données")
 

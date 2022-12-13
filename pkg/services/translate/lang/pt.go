@@ -23,6 +23,7 @@ import (
 	"golang.org/x/text/message"
 )
 
+// BrazilianPortuguese language definition
 func BrazilianPortuguese(lang language.Tag) language.Tag {
 	_ = message.SetString(lang, "title", "Dicionário de Dados")
 

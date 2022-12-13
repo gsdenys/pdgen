@@ -23,6 +23,7 @@ import (
 	"github.com/gsdenys/pdgen/pkg/services/translate"
 )
 
+// main the main function
 func main() {
 	translate.Register()
 

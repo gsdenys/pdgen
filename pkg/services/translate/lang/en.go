@@ -23,6 +23,7 @@ import (
 	"golang.org/x/text/message"
 )
 
+// AmericanEnglish language definition
 func AmericanEnglish(lang language.Tag) language.Tag {
 	_ = message.SetString(lang, "title", "Data Dictionary")
 

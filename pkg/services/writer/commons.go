@@ -23,6 +23,7 @@ import (
 	"os"
 )
 
+// CreateFile creates a new file based in the path passed by parameter
 func CreateFile(path string) (io.Writer, error) {
 	file, err := os.Create(path)
 

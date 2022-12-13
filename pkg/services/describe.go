@@ -23,6 +23,8 @@ import (
 	"github.com/gsdenys/pdgen/pkg/models"
 )
 
+// Describe function that has the main objective create the describe data structure that
+// represents all elements of database at provided schema
 func Describe(uri string, db string, schema string) (*models.Describe, error) {
 	desc := &models.Describe{}
 
