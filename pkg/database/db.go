@@ -1,3 +1,21 @@
+/*
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+*/
 package database
 
 import (
@@ -9,18 +27,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// func checkError(err error) {
-// 	if err != nil {
-// 		fmt.Println(errors.New("undefined query error, try again or contact your DBA"))
-// 		utils.Exit(1)
-// 	}
-// }
-
+// undefinedQueryError function to create a new undefined error instance
 func undefinedQueryError() error {
 	return errors.New("undefined query error, try again or contact your DBA")
 }
 
-// This function will make a connection to the database only once.
+// Connect function that will make a connection to the database
 func Connect(driver string, uri string) (*sql.DB, error) {
 	var err error
 
@@ -37,6 +49,7 @@ func Connect(driver string, uri string) (*sql.DB, error) {
 	return db, nil
 }
 
+// GetDatabaseComment returns the database comment string or error case some occur
 func GetDatabaseComment(db *sql.DB, database string) (string, error) {
 	var desc string
 	row := db.QueryRow(selectDatabaseComment, database)
@@ -49,6 +62,7 @@ func GetDatabaseComment(db *sql.DB, database string) (string, error) {
 	}
 }
 
+// GetSchemaComment returns the schema comment string or error case some occur
 func GetSchemaComment(db *sql.DB, schema string) (string, error) {
 	var desc string
 	row := db.QueryRow(selectSchemaComment, schema)
@@ -60,6 +74,8 @@ func GetSchemaComment(db *sql.DB, schema string) (string, error) {
 	}
 }
 
+// GetAllTables returns all tables structure and comments of a determined schema or error
+// case some occur
 func GetAllTables(db *sql.DB, schema string) ([]models.Table, error) {
 	var tbl []models.Table
 
@@ -81,6 +97,7 @@ func GetAllTables(db *sql.DB, schema string) ([]models.Table, error) {
 	return tbl, nil
 }
 
+// GetTableColumns returns the data from the table passed by parameter.
 func GetTableColumns(db *sql.DB, schema string, table string) ([]models.Columns, error) {
 	var tbl []models.Columns
 
