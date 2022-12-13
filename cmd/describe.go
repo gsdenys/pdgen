@@ -96,7 +96,6 @@ var describeCmd = &cobra.Command{
 			path = "output." + strings.ToLower(format)
 		}
 
-		fmt.Printf("database: %s, schema: %s", database, schema)
 		//execute extractions
 		desc, err := services.Describe(uri, database, schema)
 		if err != nil {
