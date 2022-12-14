@@ -9,6 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <link rel="stylesheet" href="font.css">
+
   <style>
     .cover {
       background-image: url(_media/bg.jpeg) !important;
@@ -19,6 +20,11 @@
     .logo {
       color: green;
       font-size: 4em;
+    }
+
+    .logo-title {
+      color: green;
+      font-size: 1.5em;
     }
 
     .anchor span {
@@ -41,15 +47,23 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: 'PDGEN',
+      name: '<span class="icon-logo logo-title"></span>',
       loadNavbar: true,
       subMaxLevel: 3,
       coverpage: true,
       onlyCover: true,
+      tabs: {
+        persist    : true,      // default
+        sync       : true,      // default
+        theme      : 'classic', // default
+        tabComments: true,      // default
+        tabHeadings: true       // default
+      }
     }
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
 </body>
 
 </html>
