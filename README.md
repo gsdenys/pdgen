@@ -1,4 +1,4 @@
-# PDGEN
+# PDGEN - Data Dictionary Generator
 
 This software has as objective to resolve the problem of maintain the data dictionary actualized when work in agile project that use the migrations to create, update or delete tables, views and schemas.
 
