@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
@@ -7,30 +8,48 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <link rel="stylesheet" href="font.css">
   <style>
     .cover {
       background-image: url(_media/bg.jpeg) !important;
       background-repeat: no-repeat !important;
       background-size: 100% 100vh !important;
-  }
-  section.cover .cover-main>p:last-child a {
-    border: 1px solid #42b983 !important;
-    border-color: var(--theme-color,#42b983) !important;
-  }
+    }
+
+    .logo {
+      color: green;
+      font-size: 4em;
+    }
+
+    .anchor span {
+      color: #008001;
+      font-weight: bold;
+    }
+
+    section.cover .cover-main>p:last-child a:last-child {
+      background-color: #008001 !important;
+    }
+
+    section.cover .cover-main>p:last-child a {
+      border: 1px solid #008001 !important;
+      border-color: #008001 !important;
+    }
   </style>
 </head>
+
 <body>
   <div id="app"></div>
   <script>
     window.$docsify = {
       name: 'PDGEN',
-      repo: '',
       loadNavbar: true,
       subMaxLevel: 3,
-      coverpage: true
+      coverpage: true,
+      onlyCover: true,
     }
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
 </body>
+
 </html>

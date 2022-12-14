@@ -1,6 +1,8 @@
 <!-- docs/_sidebar.md -->
 
-![logo](_media/icon.png)
+<!-- ![logo](_media/icon.png) -->
+
+<span class="icon-cafe logo"></span>
 
 # PDGEN <small>1.0.0</small>
 
