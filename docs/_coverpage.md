@@ -15,4 +15,4 @@
 <br>
 
 [GitHub](https://github.com/gsdenys/pdgen/)
-[Get Started](#TLDR)
+[Get Started](pages/get-started.md)
