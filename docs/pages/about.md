@@ -12,9 +12,6 @@ COMMENT ON COLUMN new_column_name IS 'Some description of the new column';
 
 If this behavior is employed at all database levels for example database, schema, tables, columns, views, etc. You can just run the [PDGEN](https://gsdenys.github.io/pdgen) point to a database that contains all mentioned data and a structured documentation will be exported in the chosen format.
 
-The [Example](pages/example.md) page are dedicated to list many example repositories wrote in different programing languages.
-
-
 ## Supported Databases
 
 In this first version of [PDGEN](https://gsdenys.github.io/pdgen) (v1.0.0), the unique database supported is [PostgreSQL](https://www.postgresql.org), but this cited just below are previewed for the version 2.0.0.

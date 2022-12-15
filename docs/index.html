@@ -40,6 +40,14 @@
       border: 1px solid #008001 !important;
       border-color: #008001 !important;
     }
+
+    code {
+      white-space: pre-wrap !important;
+    }
+
+    .docsify-tabs--classic>.docsify-tabs__tab--active {
+      box-shadow: inset 0 3px 0 0 #008001 !important;
+    }
   </style>
 </head>
 
@@ -51,11 +59,11 @@
       loadNavbar: true,
       subMaxLevel: 3,
       coverpage: true,
-      onlyCover: true,
+      onlyCover: false,
       tabs: {
-        persist    : true,      // default
-        sync       : true,      // default
-        theme      : 'classic', // default
+        persist: true,      // default
+        sync: true,      // default
+        theme: 'classic', // default
         tabComments: true,      // default
         tabHeadings: true       // default
       }
@@ -64,6 +72,9 @@
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-powershell.js"></script>
 </body>
 
 </html>
