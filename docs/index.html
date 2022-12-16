@@ -23,6 +23,11 @@
       font-size: 4em;
     }
 
+    .desc {
+      color: green;
+      font-size: 1.2em;
+    }
+
     .logo-title {
       color: green;
       font-size: 1.5em;
@@ -64,6 +69,58 @@
       background-repeat: no-repeat !important;
       background-size: 100% !important;
     }
+
+    section.cover ul {
+      font-size: 1.25rem;
+      line-height: 2rem;
+      display: grid;
+      text-align: left;
+      grid-column-gap: 16px;
+      grid-row-gap: 10px;
+      grid-template-columns: repeat(2, 50%);
+      list-style: none;
+      max-width: unset;
+      margin: 1.5em 0;
+    }
+
+    li {
+      display: list-item;
+      text-align: -webkit-match-parent;
+    }
+
+    section.cover ul li {
+      white-space: nowrap;
+      padding-left: 20px;
+    }
+
+    section.cover .cover-main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 0;
+      padding: 32px 16px 0;
+    }
+
+    section.cover blockquote {
+      font-size: 2rem;
+      text-align: center;
+      margin: 0px !important;
+    }
+
+    section.cover h1 {
+      color: inherit;
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin: 0.3rem 0 2.5rem;
+      position: relative;
+      text-align: center;
+    }
+
+    section.cover p {
+      line-height: 1rem;
+      margin: 0.5em 0;
+  }
   </style>
 </head>
 
@@ -72,6 +129,7 @@
   <script>
     window.$docsify = {
       name: '<span class="icon-logo logo-title"></span>',
+      repsitory: '',
       loadNavbar: true,
       subMaxLevel: 3,
       coverpage: true,
