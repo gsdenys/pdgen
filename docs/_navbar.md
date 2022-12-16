@@ -4,3 +4,4 @@
 * [About](pages/about.md)
 * [Install](pages/install.md)
 * [Usage](pages/usage.md)
+* [Develop](pages/develop.md)

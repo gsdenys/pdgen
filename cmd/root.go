@@ -38,12 +38,14 @@ var (
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println("Initialization error. Try another software version.")
-		os.Exit(1)
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(-1)
 	}
 }
 
 // init function to initialize de commanda line
 func init() {
-	//nothing to do
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+
+	rootCmd.SetHelpCommand(&cobra.Command{Hidden: true})
 }
