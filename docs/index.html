@@ -70,7 +70,34 @@
       background-size: 100% !important;
     }
 
-    @media only screen and (min-device-width: 600px) and (orientation : landscape) {
+    @media only screen and (max-device-width: 540px) and (orientation : portrait) {
+      .app-nav.no-badge {
+        margin: 25px 0px 25px 0px !important;
+        width: 100%;
+      }
+
+      .app-nav li,
+      .app-nav ul {
+        padding: 0 !important;
+      }
+
+      .app-nav ul {
+        width: 100%;
+        text-align: center;
+      }
+
+      .app-nav li {
+        display: inline-block;
+        margin: 0 0.35rem;
+        padding: 5px 0;
+      }
+
+      .markdown-section {
+        padding-top: 50px !important;
+      }
+    }
+
+    @media only screen and (min-device-width: 541px) and (orientation : landscape) {
       section.cover ul {
         font-size: 1.25rem;
         line-height: 2rem;
@@ -84,45 +111,45 @@
         margin: 1.5em 0;
       }
 
-    li {
-      display: list-item;
-      text-align: -webkit-match-parent;
-    }
+      li {
+        display: list-item;
+        text-align: -webkit-match-parent;
+      }
 
-    section.cover ul li {
-      white-space: nowrap;
-      padding-left: 20px;
-    }
+      section.cover ul li {
+        white-space: nowrap;
+        padding-left: 20px;
+      }
 
-    section.cover .cover-main {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      margin: 0;
-      padding: 32px 16px 0;
-    }
+      section.cover .cover-main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 0;
+        padding: 32px 16px 0;
+      }
 
-    section.cover blockquote {
-      font-size: 2rem;
-      text-align: center;
-      margin: 0px !important;
-    }
+      section.cover blockquote {
+        font-size: 2rem;
+        text-align: center;
+        margin: 0px !important;
+      }
 
-    section.cover h1 {
-      color: inherit;
-      font-size: 2.5rem;
-      font-weight: 300;
-      margin: 0.3rem 0 2.5rem;
-      position: relative;
-      text-align: center;
-    }
+      section.cover h1 {
+        color: inherit;
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin: 0.3rem 0 2.5rem;
+        position: relative;
+        text-align: center;
+      }
 
-    section.cover p {
-      line-height: 1rem;
-      margin: 0.5em 0;
+      section.cover p {
+        line-height: 1rem;
+        margin: 0.5em 0;
+      }
     }
-  }
   </style>
 </head>
 
