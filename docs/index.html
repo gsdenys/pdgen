@@ -70,18 +70,19 @@
       background-size: 100% !important;
     }
 
-    section.cover ul {
-      font-size: 1.25rem;
-      line-height: 2rem;
-      display: grid;
-      text-align: left;
-      grid-column-gap: 16px;
-      grid-row-gap: 10px;
-      grid-template-columns: repeat(2, 50%);
-      list-style: none;
-      max-width: unset;
-      margin: 1.5em 0;
-    }
+    @media only screen and (min-device-width: 600px) and (orientation : landscape) {
+      section.cover ul {
+        font-size: 1.25rem;
+        line-height: 2rem;
+        display: grid;
+        text-align: left;
+        grid-column-gap: 16px;
+        grid-row-gap: 10px;
+        grid-template-columns: repeat(2, 50%);
+        list-style: none;
+        max-width: unset;
+        margin: 1.5em 0;
+      }
 
     li {
       display: list-item;
@@ -120,6 +121,7 @@
     section.cover p {
       line-height: 1rem;
       margin: 0.5em 0;
+    }
   }
   </style>
 </head>
