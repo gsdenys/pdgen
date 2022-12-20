@@ -6,20 +6,135 @@ The [PDGEN](https://gsdenys.github.io/pdgen), in the root level has 3 different 
 
 This command has objective to connect to the database and generate the data dictionary output in the selected format that by default is a _TXT_ expressed at the standard operational system output.
 
-This command has 7 possible flags/configurations that can be user together and combined.
-
+This command has 7 possible flags/configurations that can be used together. All mentioned parameters has their default defined, so, if you opt by do not set, the default value will be used to.
 
 ### URL
 
+?> The default value is: **_postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"_**
+
+This parameter represents the connection string to the database, it can be applied using tbe following options:
+
+1. Using the name:  __--url__ _[connection string]_
+
+```bash
+pdgen describe --url "postgres://theuser:pwd123@some.url/somedb"
+```
+
+2. Using the shorthand:  __-u__ _[connection string]_
+
+```bash
+pdgen describe -u "postgres://theuser:pwd123@some.url/somedb"
+```
+
 ### Database
+
+?> The default value is: **_postgres_**
+
+!> In the next version the __default database__ will change, It'll be extracted from the __URL__
+
+This parameters allow user select the database to be described, it can be applied using tbe following options:
+
+1. The name: __--database__
+
+```bash
+pdgen describe --database databasename
+```
+
+2. The shorthand: __-d__
+
+```bash
+pdgen describe -d databasename
+```
 
 ### Schema
 
-### Format
+?> The default value is: **_public_**
+
+This parameters allow user select the schema to be described, it can be applied using tbe following options:
+
+1. The name: __--schema__
+
+```bash
+pdgen describe --schema schamaname
+```
+
+2. The shorthand: __-s__
+
+```bash
+pdgen describe -s schamaname
+```
 
 ### Output
 
+?> By default it can assume the **_output.\[txt | md | html\]_**, depending of the selected format.
+
+This parameters allow user select the output file, it can be applied using tbe following options:
+
+1. The name: __--output__
+
+```bash
+pdgen describe --output /path/to/your/file.txt
+```
+
+2. The shorthand: __-o__
+
+```bash
+pdgen describe -o /path/to/your/file.txt
+```
+
+### Format
+
+?> The default output format is the __Console Output (stdout)__.
+
+This parameters allow user select the output format for the documentation. The disponible types are:
+
+* __console:__ This is de default one that outputs directly over the operation system stdout;
+* __txt:__ Generate a TXT file containing the organized information;
+* __html:__ Generate an HTML file containing the organized information;
+* __md:__ Generate a Markdown file containing the organized information;
+* **_DOCX:_** :construction_worker: _Previewed at version 2.0.0_ :construction:.
+
+The usage of this parameter cam be applied using the following options:
+
+1. The name: __--format__
+
+```bash
+pdgen describe --format txt
+```
+
+2. The shorthand: __-f__
+
+```bash
+pdgen describe -f txt
+```
+
 ### Language
+
+?> The default output language is the __system language__. Case this is not enable, the __en-US__ will be selected.
+
+This parameters allow user overwrite the output language for the documentation. The disponible types are:
+
+* __en:__ English (default alias for en-US);
+* __en-US:__ American english;
+* __fr:__ French (default value for fr-CA)
+* __fr-CA:__ Canadian French;
+* __pt:__ Portuguese (default alias for pt-BR)
+* __pt-BR:__ Brazilian Portuguese;
+
+
+The usage of this parameter cam be applied using the following options:
+
+1. The name: __--language__
+
+```bash
+pdgen describe --language pt-BR
+```
+
+2. The shorthand: __-l__
+
+```bash
+pdgen describe -l pt-BR
+```
 
 ### Help
 
