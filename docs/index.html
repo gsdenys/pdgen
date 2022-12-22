@@ -158,8 +158,11 @@
   <script>
     window.$docsify = {
       name: '<span class="icon-logo logo-title"></span>',
-      repsitory: '',
+      repo: 'https://github.com/gsdenys/pdgen',
       loadNavbar: true,
+      alias: {
+        '/.*/_navbar.md': '/_navbar.md', // See #301
+      },
       subMaxLevel: 3,
       coverpage: true,
       onlyCover: true,
@@ -189,7 +192,7 @@
   </script>
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
 
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-powershell.js"></script>

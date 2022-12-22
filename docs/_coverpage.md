@@ -1,6 +1,3 @@
-<!-- docs/_sidebar.md -->
-
-<!-- ![logo](_media/icon.png) -->
 
 <span class="icon-cafe logo"></span>
 
@@ -11,7 +8,6 @@
 - <span class="icon-command desc"></span> &nbsp; Command line
 - <span class="icon-lang desc"></span> &nbsp; Internationalization
 - <span class="icon-format desc"></span> &nbsp; 4 output formats
-<!-- - <span class="icon-os desc"></span> Multiples OS -->
 - <span class="icon-scrum desc"></span> &nbsp; Documentation
 - <span class="icon-open-source desc"></span> &nbsp; Open Source
 
