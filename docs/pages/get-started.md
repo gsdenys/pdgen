@@ -8,7 +8,7 @@ The easy way to use [PDGEN](https://gsdenys.github.io/pdgen) is to execute the c
 
 ## Download
 
-1. Download the binary compatible with yourn environment. For this example  __darwin-arm64__ (Mac OS).
+1. Download the binary compatible with yourn environment. This example is based in a __darwin-arm64__.
 
 ```bash
 curl -OL https://github.com/gsdenys/pdgen/releases/download/v1.0.0/pdgen-v1.0.0-darwin-arm64.tar.gz
