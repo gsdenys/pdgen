@@ -1,5 +1,7 @@
 # Get Started
 
+[PDGEN](https://gsdenys.github.io/pdgen) is a data dictionary exporter that allow generate your database documentation using reverse engineering.
+
 The easy way to use [PDGEN](https://gsdenys.github.io/pdgen) is to execute the command to export the _database_ documentation directly to console. Follow the steps below to a fast start.
 
 !> These steps don't install the [PDGEN](https://gsdenys.github.io/pdgen) in your environment, it just disponibilize the executable in a local directory!
