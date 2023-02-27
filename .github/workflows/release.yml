@@ -23,11 +23,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: wangyoucao577/go-release-action@v1.33
+      - uses: wangyoucao577/go-release-action@v1.35
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
+          overwrite: TRUE
 
   docker:
     name: Docker build and push
@@ -37,7 +38,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      
+
       - uses: cloudposse/github-action-docker-build-push@1.9.0
         with:
           organization: "${{ github.event.repository.owner.login }}"
