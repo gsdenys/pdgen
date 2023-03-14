@@ -34,6 +34,7 @@ var Options = map[string]services.Printer{
 	"TXT":     &writer.TXT{},
 	"HTML":    &writer.HTML{},
 	"JSON":    &writer.JSON{},
+	"PDF":     &writer.PDF{},
 }
 
 // GetKeys returns an array of string containing the output possibilites
